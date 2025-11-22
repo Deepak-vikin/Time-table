@@ -1,0 +1,118 @@
+AI-BASED TIMETABLE GENERATOR PROJECT STRUCTURE AND AI/ML DESCRIPTION
+
+===============================================
+
+PROJECT OVERVIEW:
+This is an AI-powered timetable generator that creates NEP 2020 compliant academic schedules for college classes. The system uses machine learning optimization techniques and AI-powered decision making to generate conflict-free timetables.
+
+FOLDER STRUCTURE AND DESCRIPTIONS:
+
+1. src/ - Main source code directory
+   ├── components/ - React UI components
+   │   ├── AIGenerator.tsx - Main AI timetable generation interface
+   │   ├── Dashboard.tsx - Main dashboard view
+   │   ├── Layout.tsx - Application layout and navigation
+   │   ├── Settings.tsx - Configuration settings
+   │   ├── Subjects.tsx - Subject management
+   │   ├── Timetable.tsx - Timetable display
+   │   └── TimetableGrid.tsx - Timetable grid visualization
+   │
+   ├── lib/ - Library and utility functions
+   │   ├── openai.ts - OpenAI API integration for AI generation
+   │   └── resourceFinder.ts - Resource discovery utilities
+   │
+   ├── types/ - TypeScript type definitions
+   │   └── index.ts - Data type definitions (Subject, Teacher, Class, etc.)
+   │
+   └── App.tsx - Main application component
+   └── main.tsx - Application entry point
+
+2. server/ - Backend server code
+   └── api/ - API endpoints and server logic
+
+3. supabase/ - Database schema and migrations
+   └── migrations/ - SQL migration files for database setup
+
+4. public/ - Static assets
+   └── Images, icons, and other static resources
+
+5. node_modules/ - NPM package dependencies
+
+KEY TECHNOLOGIES:
+
+Frontend:
+- React with TypeScript for component-based UI
+- Vite for fast development and build processes
+- Tailwind CSS for responsive styling
+- React Router for navigation
+- Lucide React for icons
+- React Hot Toast for notifications
+
+Backend:
+- Supabase for database and authentication
+- Express.js for API endpoints
+- Node.js runtime environment
+
+AI/ML IMPLEMENTATION:
+
+1. OPENAI INTEGRATION:
+   - Uses GPT models for intelligent timetable generation
+   - Prompt engineering with comprehensive context:
+     * Subject information with NEP categorization
+     * Teacher profiles with specializations
+     * Time slot configurations
+     * NEP 2020 compliance requirements
+     * Scheduling constraints and preferences
+
+2. MACHINE LEARNING OPTIMIZATION:
+   - Constraint Satisfaction Algorithms:
+     * Teacher availability optimization
+     * Room capacity management
+     * Subject credit hour distribution
+     * Student-to-teacher ratio balancing
+   - Conflict Avoidance Systems:
+     * Teacher scheduling conflict prevention
+     * Class time slot overlap elimination
+     * Room booking conflict resolution
+   - Priority-Based Scheduling:
+     * High-priority subjects in optimal time slots
+     * Load balancing across the week
+     * Resource utilization optimization
+
+3. NEP 2020 COMPLIANCE FEATURES:
+   - Multidisciplinary Integration: Combines related subjects
+   - Holistic Development Focus: Balances different subject types
+   - Flexible Curriculum Support: Adapts to various educational needs
+   - Art & Value Education Priority: Ensures proper allocation
+
+4. SMART ALLOCATION ALGORITHMS:
+   - Subject Categorization: Groups subjects by educational type
+   - Time-Based Optimization: Schedules subjects at research-backed optimal times
+   - Resource Utilization: Efficiently uses classroom and teacher resources
+
+AI/ML WORKFLOW:
+
+1. Data Input:
+   - Subjects with categories and priorities
+   - Classes with student counts
+   - Teacher profiles with specializations
+   - Time slot configurations
+   - Scheduling constraints
+
+2. AI Processing:
+   - OpenAI API call with engineered prompt
+   - Context includes all NEP 2020 requirements
+   - Constraint satisfaction optimization
+
+3. Output Generation:
+   - Conflict-free timetable
+   - NEP 2020 compliant schedule
+   - Optimized resource allocation
+   - Downloadable PDF format
+
+4. Feedback Loop:
+   - Manual adjustments possible
+   - Regeneration with modified constraints
+   - Continuous improvement through user interaction
+
+This system represents a hybrid approach combining rule-based constraint satisfaction with AI-powered optimization to create educationally effective and NEP 2020 compliant timetables.

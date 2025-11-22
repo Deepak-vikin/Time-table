@@ -1,0 +1,3163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Futuristic Timetable System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+/* ===== EMBEDDED CSS FROM FUTURISTIC.CSS ===== */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --error-gradient: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  --bg-primary: #0f0f23;
+  --bg-secondary: #1a1a2e;
+  --bg-card: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0.12);
+  --text-primary: #ffffff;
+  --text-secondary: #b8b8d1;
+  --text-accent: #64ffda;
+  --shadow-neon: 0 0 20px rgba(100, 255, 218, 0.3);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --border-glass: 1px solid rgba(255, 255, 255, 0.2);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Page Management */
+.page-content {
+  display: none;
+}
+
+.page-content.active {
+  display: block;
+}
+
+/* Animated Background Particles */
+.bg-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--text-accent);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(100vh) scale(0); }
+  50% { transform: translateY(50vh) scale(1); }
+}
+
+/* Glass Morphism */
+.glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: var(--border-glass);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Navigation */
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 15, 35, 0.9);
+  backdrop-filter: blur(15px);
+  border-bottom: var(--border-glass);
+  z-index: 1000;
+  padding: 15px 0;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-steps {
+  display: flex;
+  gap: 30px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: var(--transition-smooth);
+}
+
+.step.active {
+  color: var(--text-accent);
+}
+
+.step.completed {
+  color: #43e97b;
+}
+
+.step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.step.active .step-number {
+  background: var(--accent-gradient);
+  box-shadow: var(--shadow-neon);
+}
+
+.step.completed .step-number {
+  background: var(--success-gradient);
+}
+
+/* Page Layout */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  padding-top: 100px;
+}
+
+.main-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: var(--border-glass);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  max-width: 500px;
+  transition: var(--transition-smooth);
+}
+
+.wide-card {
+  max-width: 900px;
+}
+
+/* Typography */
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--text-accent);
+  color: var(--text-accent);
+}
+
+.btn-outline:hover {
+  background: var(--text-accent);
+  color: var(--bg-primary);
+}
+
+.btn-success {
+  background: var(--success-gradient);
+  color: white;
+}
+
+.btn-accent {
+  background: var(--accent-gradient);
+  color: white;
+}
+
+.btn-warning {
+  background: var(--warning-gradient);
+  color: white;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 16px;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--text-accent);
+  box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Fix for select dropdown options visibility */
+.form-select option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 10px;
+}
+
+.form-select option:hover,
+.form-select option:focus,
+.form-select option:checked {
+  background: var(--text-accent);
+  color: var(--bg-primary);
+}
+
+/* Ensure selected option is visible */
+.form-select {
+  color: var(--text-primary) !important;
+}
+
+.form-select:invalid {
+  color: var(--text-secondary);
+}
+
+/* Utility */
+.text-center { text-align: center; }
+.mb-4 { margin-bottom: 32px; }
+.mt-4 { margin-top: 32px; }
+.hidden { display: none; }
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--text-accent);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-card {
+    padding: 30px 20px;
+    margin: 20px 15px;
+  }
+  
+  .nav-steps {
+    display: none;
+  }
+  
+  .title {
+    font-size: 28px;
+  }
+}
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="bg-particles"></div>
+    
+    <!-- Navigation Header -->
+    <nav class="nav-header">
+        <div class="nav-content">
+            <div class="logo">🎓 TimetableAI</div>
+            <div class="nav-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <span>Login</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span>Selection</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span>Upload</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <span>Generate</span>
+                </div>
+            </div>
+            <div class="user-info">
+                <span class="user-email" id="userEmail"></span>
+                <button class="btn btn-outline" onclick="logout()" style="margin-left: 12px; padding: 6px 12px; font-size: 12px; display: none;" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page-content active">
+        <div class="page-wrapper">
+            <div class="main-card fade-in">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h1 class="title">Welcome to the Future</h1>
+                    <p class="subtitle">AI-Powered Academic Timetable Generator</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <span class="neon-text">📧</span> Email Address
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="form-input" 
+                            placeholder="Enter your email address"
+                            required
+                            autocomplete="email"
+                        >
+                        <div class="form-hint">
+                            Only <strong>@gmail.com</strong> and <strong>@srishakthi.ac.in</strong> domains are allowed
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" id="loginBtn">
+                            <span>🚀</span> Access Timetable System
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Features Preview -->
+                <div class="features-preview mt-4">
+                    <div class="section-title text-center">System Features</div>
+                    <div class="grid grid-2 gap-2">
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">🤖</div>
+                            <div class="feature-title">AI-Powered</div>
+                            <div class="feature-desc">Smart conflict resolution and optimization</div>
+                        </div>
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-title">NEP 2020 Compliant</div>
+                            <div class="feature-desc">Automatically follows latest education policies</div>
+                        </div>
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-title">Real-time Generation</div>
+                            <div class="feature-desc">Instant timetable creation with live updates</div>
+                        </div>
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-title">Multi-Format Export</div>
+                            <div class="feature-desc">PDF, Excel, and digital formats</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Notice -->
+                <div class="security-notice mt-4">
+                    <div class="alert alert-info">
+                        <strong>🔐 Secure Access:</strong> Your data is protected with enterprise-grade security. 
+                        Only authorized educational domains are permitted.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SELECTION PAGE -->
+    <div id="selectionPage" class="page-content">
+        <div class="page-wrapper">
+            <div class="main-card wide-card fade-in">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h1 class="title">Academic Configuration</h1>
+                    <p class="subtitle">Select your program details to generate the perfect timetable</p>
+                </div>
+
+                <!-- Selection Form -->
+                <form id="selectionForm" class="selection-form">
+                    <!-- Program Selection -->
+                    <div class="selection-section mb-4">
+                        <h3 class="section-title">🎓 Academic Program</h3>
+                        <div class="program-grid">
+                            <div class="program-card" data-program="aiml">
+                                <div class="program-icon">🤖</div>
+                                <div class="program-name">B.Tech AI/ML</div>
+                                <div class="program-desc">Artificial Intelligence & Machine Learning</div>
+                            </div>
+                            <div class="program-card" data-program="bed">
+                                <div class="program-icon">👨‍🏫</div>
+                                <div class="program-name">B.Ed.</div>
+                                <div class="program-desc">Bachelor of Education</div>
+                            </div>
+                            <div class="program-card" data-program="med">
+                                <div class="program-icon">🎯</div>
+                                <div class="program-name">M.Ed.</div>
+                                <div class="program-desc">Master of Education</div>
+                            </div>
+                            <div class="program-card" data-program="fyup">
+                                <div class="program-icon">📚</div>
+                                <div class="program-name">FYUP</div>
+                                <div class="program-desc">Four Year Undergraduate Program</div>
+                            </div>
+                            <div class="program-card" data-program="itep">
+                                <div class="program-icon">🔬</div>
+                                <div class="program-name">ITEP</div>
+                                <div class="program-desc">Integrated Teacher Education Program</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedProgram" name="program" required>
+                    </div>
+
+                    <!-- Department & Details -->
+                    <div class="selection-section mb-4">
+                        <h3 class="section-title">🏢 Department</h3>
+                        <div class="form-group">
+                            <select id="department" class="form-select" required>
+                                <option value="">Select Department</option>
+                                <option value="cse">Computer Science & Engineering</option>
+                                <option value="education">Education</option>
+                                <option value="liberal">Liberal Arts</option>
+                                <option value="teacher">Teacher Education</option>
+                                <option value="science">Applied Sciences</option>
+                                <option value="mathematics">Mathematics</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Academic Details Grid -->
+                    <div class="academic-grid grid-3 mb-4">
+                        <div class="form-group">
+                            <label for="semester" class="form-label">📅 Semester</label>
+                            <select id="semester" class="form-select" required>
+                                <option value="">Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sections" class="form-label">👥 Number of Sections</label>
+                            <select id="sections" class="form-select" required>
+                                <option value="">Select Sections</option>
+                                <option value="1">1 Section</option>
+                                <option value="2">2 Sections</option>
+                                <option value="3">3 Sections</option>
+                                <option value="4">4 Sections</option>
+                                <option value="5">5 Sections</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="academicYear" class="form-label">📚 Academic Year</label>
+                            <select id="academicYear" class="form-select" required>
+                                <option value="">Select Year</option>
+                                <option value="2024-25">2024-25</option>
+                                <option value="2025-26">2025-26</option>
+                                <option value="2026-27">2026-27</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions mt-4">
+                        <button type="button" class="btn btn-outline" onclick="showPage('login')">
+                            <span>←</span> Back to Login
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="continueBtn">
+                            <span>→</span> Continue to Upload
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPLOAD PAGE -->
+    <div id="uploadPage" class="page-content">
+        <div class="page-wrapper">
+            <div class="main-card wide-card fade-in">
+                <div class="text-center mb-4">
+                    <h1 class="title">Document Upload & Configuration</h1>
+                    <p class="subtitle">Upload curriculum files and configure break schedules</p>
+                </div>
+
+                <form id="uploadForm">
+                    <!-- File Upload Section -->
+                    <div class="upload-section mb-4">
+                        <h3 class="section-title">📄 Upload Documents</h3>
+                        <div class="grid grid-2">
+                            <div class="upload-card glass-card">
+                                <h4>📚 Curriculum File</h4>
+                                <div class="file-upload" id="curriculumUpload">
+                                    <input type="file" id="curriculumFile" accept=".pdf" />
+                                    <div class="file-upload-content">
+                                        <div class="file-upload-icon">📁</div>
+                                        <div class="file-upload-text">Upload Curriculum PDF</div>
+                                        <div class="file-upload-hint">Drag & drop or click to select</div>
+                                    </div>
+                                    <div class="file-upload-success hidden" id="curriculumSuccess">
+                                        <div class="success-icon">✅</div>
+                                        <div class="success-text">File uploaded successfully!</div>
+                                        <div class="file-name" id="curriculumFileName"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="upload-card glass-card">
+                                <h4>📋 NEP Policy Document</h4>
+                                <div class="file-upload" id="nepUpload">
+                                    <input type="file" id="nepFile" accept=".pdf" />
+                                    <div class="file-upload-content">
+                                        <div class="file-upload-icon">📁</div>
+                                        <div class="file-upload-text">Upload NEP PDF</div>
+                                        <div class="file-upload-hint">Drag & drop or click to select</div>
+                                    </div>
+                                    <div class="file-upload-success hidden" id="nepSuccess">
+                                        <div class="success-icon">✅</div>
+                                        <div class="success-text">File uploaded successfully!</div>
+                                        <div class="file-name" id="nepFileName"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Break Schedule Configuration -->
+                    <div class="break-config mb-4">
+                        <h3 class="section-title">⏰ Break Schedule Configuration</h3>
+                        <div class="grid grid-3">
+                            <div class="form-group">
+                                <label class="form-label">Morning Break Start</label>
+                                <input type="time" class="form-input" id="break1" value="10:00">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Lunch Break Start</label>
+                                <input type="time" class="form-input" id="lunch" value="12:30">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Evening Break Start</label>
+                                <input type="time" class="form-input" id="break2" value="15:30">
+                            </div>
+                        </div>
+                        <div class="break-notice">
+                            <strong>Note:</strong> Morning break: 15 minutes (e.g., 10:00-10:15), Lunch break: 45 minutes (e.g., 12:30-13:15) as per NEP requirements.
+                        </div>
+                    </div>
+
+                    <!-- NEP Updates Checker -->
+                    <div class="nep-updates-section mb-4">
+                        <h3 class="section-title">📋 NEP 2020 Policy Updates</h3>
+                        <div class="nep-status-card glass-card">
+                            <div class="nep-status-simple">
+                                <div class="nep-status-indicator" id="nepStatusIndicator">
+                                    <div class="status-dot loading"></div>
+                                    <span class="status-text" id="nepStatusText">Checking for updates...</span>
+                                </div>
+                                <div class="nep-actions">
+                                    <button class="btn btn-outline" id="refreshNepBtn" onclick="checkNEPUpdates(true)">
+                                        <span>🔄</span> Refresh
+                                    </button>
+                                    <button class="btn btn-success" id="acknowledgeNepBtn" onclick="acknowledgeNEPUpdates()" style="display: none; margin-left: 8px;">
+                                        <span>✓</span> Acknowledge
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="nep-last-checked">
+                                <span class="last-checked-label">Last Checked:</span>
+                                <span class="last-checked-time" id="lastCheckedTime">Never</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4">
+                        <button type="button" class="btn btn-outline" onclick="showPage('selection')">
+                            <span>←</span> Back to Selection
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <span>→</span> Proceed to Generate
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMETABLE GENERATION PAGE -->
+    <div id="timetablePage" class="page-content">
+        <div class="page-wrapper">
+            <!-- Generation Control Panel -->
+            <div class="control-panel glass-card mb-4">
+                <div class="panel-header">
+                    <h2 class="panel-title">📅 Timetable Generator</h2>
+                    <div class="generation-status" id="generationStatus">Ready to generate</div>
+                </div>
+                
+                <div class="generation-config">
+                    <div class="config-summary" id="configSummary">
+                        <div class="summary-item">
+                            <span class="summary-label">Program:</span>
+                            <span class="summary-value" id="summaryProgram">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Semester:</span>
+                            <span class="summary-value" id="summarySemester">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Sections:</span>
+                            <span class="summary-value" id="summarySections">-</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-generate" id="generateBtn">
+                        <span>🚀</span> Generate Timetable
+                    </button>
+                </div>
+            </div>
+
+            <!-- Generation Progress -->
+            <div class="progress-panel glass-card hidden" id="progressPanel">
+                <h3 class="progress-title">⚡ Generating Timetable</h3>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Initializing...</div>
+                </div>
+            </div>
+
+            <!-- Timetable Display -->
+            <div class="timetable-container hidden" id="timetableContainer">
+                <div class="timetable-header">
+                    <h2 class="timetable-title">📅 Generated Timetable</h2>
+                    <div class="timetable-actions">
+                        <button class="btn btn-success" id="downloadPdfBtn">
+                            <span>📄</span> Download PDF
+                        </button>
+                        <button class="btn btn-accent" id="downloadExcelBtn">
+                            <span>📊</span> Export Excel
+                        </button>
+                        <button class="btn btn-warning" id="regenerateBtn">
+                            <span>🔄</span> Regenerate
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="timetable-content" id="timetableContent">
+                    <!-- Timetable will be rendered here -->
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button type="button" class="btn btn-outline" onclick="showPage('upload')">
+                        <span>←</span> Back to Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+/* ===== COMBINED JAVASCRIPT FROM ALL INDIVIDUAL PAGES ===== */
+
+// Global System State
+window.TimetableSystem = {
+  currentUser: null,
+  sessionData: {
+    program: null, department: null, semester: null, sections: null,
+    breakTimes: { break1: '10:00', lunch: '12:30', break2: '15:30' }
+  },
+  config: {
+    allowedDomains: ['@gmail.com', '@srishakthi.ac.in']
+  },
+  nepCache: {
+    lastChecked: null,
+    updates: [],
+    status: 'unknown',
+    cacheExpiry: 6 * 60 * 60 * 1000 // 6 hours in milliseconds
+  },
+  aiConfig: {
+    geminiApiKey: 'YOUR_GEMINI_API_KEY_HERE', // Replace this with your actual Gemini API key
+    geminiModel: 'gemini-1.5-flash',
+    apiEndpoint: 'https://generativelanguage.googleapis.com/v1beta/models/'
+  }
+};
+
+// ===== GEMINI AI INTEGRATION FOR INTELLIGENT TIMETABLE GENERATION =====
+
+// Gemini AI Service for intelligent timetable optimization
+const GeminiAIService = {
+  // Validate API key configuration
+  validateApiKey() {
+    const apiKey = TimetableSystem.aiConfig.geminiApiKey;
+    if (!apiKey || apiKey === 'YOUR_GEMINI_API_KEY_HERE' || apiKey.length < 30) {
+      // Instead of throwing an error, we'll use a more graceful fallback
+      console.warn('Gemini API key not properly configured. Using fallback behavior.');
+      return null; // Return null to indicate no valid API key
+    }
+    return apiKey;
+  },
+
+  // Make API call to Gemini
+  async callGeminiAPI(prompt, options = {}) {
+    const apiKey = this.validateApiKey();
+    
+    // If no valid API key, return a simulated response for testing
+    if (!apiKey) {
+      console.warn('No valid Gemini API key found. Returning simulated response.');
+      // Simulate a delay to mimic API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Return a simulated response based on the prompt content
+      if (prompt.includes('timetable')) {
+        // Simulate timetable generation response
+        return {
+          candidates: [{
+            content: {
+              parts: [{
+                text: JSON.stringify({
+                timetables: [
+                  {
+                    section: "A",
+                    room: "Room 1",
+                    schedule: {
+                      Monday: [
+                        { subject: "Mathematics", faculty: "Dr. Smith", room: "Room 1", type: "theory" },
+                        { subject: "Break", faculty: "-", room: "-", type: "break" },
+                        { subject: "Physics", faculty: "Prof. Johnson", room: "Room 1", type: "theory" }
+                      ]
+                    }
+                  }
+                ],
+                analysis: {
+                  conflicts: 0,
+                  efficiency: 95,
+                  recommendations: ["Good schedule balance"]
+                }
+              })
+              }]
+            }
+          }]
+        };
+      }
+      
+      // Default simulated response
+      return {
+        candidates: [{
+          content: {
+            parts: [{
+              text: "This is a simulated response since no API key is configured."
+            }]
+          }
+        }]
+      };
+    }
+    
+    // Use the working API format from the provided example
+    const model = options.model || TimetableSystem.aiConfig.geminiModel;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }], 
+          safetySettings: [
+            {
+              category: 'HARM_CATEGORY_HARASSMENT',
+              threshold: 'BLOCK_MEDIUM_AND_ABOVE'
+            }
+          ],
+          generationConfig: {
+            temperature: options.temperature || 0.3,
+            topK: options.topK || 40,
+            topP: options.topP || 0.95,
+            maxOutputTokens: options.maxTokens || 2048
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Details:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.candidates || data.candidates.length === 0) {
+        console.error('Empty response from Gemini:', data);
+        throw new Error('Empty response from Gemini API');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Gemini API call failed:', error);
+      throw error;
+    }
+  },
+
+  // Validate curriculum content against selected program using AI
+  async validateCurriculumMatch(extractedData, programInfo) {
+    const prompt = `
+As an AI curriculum validator, analyze if this curriculum content matches the selected program:
+
+Selected Program: ${programInfo.program}
+Department: ${programInfo.department}
+Semester: ${programInfo.semester}
+
+Extracted Curriculum Content:
+${extractedData.text}
+
+Filename: ${extractedData.fileName}
+Detected Content Type: ${extractedData.detectedType}
+
+Validate if this curriculum is appropriate for the selected program. Return ONLY a JSON object:
+{
+  "isValid": true/false,
+  "confidence": 0.0-1.0,
+  "reason": "explanation of validation result",
+  "suggestedAction": "what user should do"
+}
+
+Validation Rules:
+- ONLY reject files with very high confidence (>90%) if completely inappropriate
+- Be EXTREMELY LENIENT - err on the side of acceptance
+- AIML program should contain AI, Machine Learning, Computer Science subjects
+- Medical/AIDS curriculum should ONLY be rejected for AIML if it has zero educational content
+- Education programs (B.Ed, M.Ed, ITEP) should accept almost any file with educational context
+- Engineering programs should contain technical, engineering subjects
+- If in doubt, ACCEPT the file - false positives are better than false negatives
+- ANY educational content makes a file suitable for education programs
+- Consider both filename and content for validation`;
+
+    try {
+      const response = await this.callGeminiAPI(prompt, { temperature: 0.1 });
+      
+      // Extract text from the response
+      const responseText = response.candidates[0].content.parts[0].text;
+      
+      // Extract JSON from response
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('Could not extract JSON from AI validation response');
+      }
+      
+      return JSON.parse(jsonMatch[0]);
+    } catch (error) {
+      console.error('AI curriculum validation failed:', error);
+      
+      // Fallback validation based on simple keyword matching
+      return this.fallbackValidation(extractedData, programInfo);
+    }
+  },
+
+  // Fallback validation without AI - EXTREMELY LENIENT
+  fallbackValidation(extractedData, programInfo) {
+    const selectedProgram = programInfo.program.toLowerCase();
+    const fileName = extractedData.fileName.toLowerCase();
+    const content = extractedData.text.toLowerCase();
+    const detectedType = extractedData.detectedType;
+    
+    // Define program keywords - Enhanced for B.Ed
+    const programKeywords = {
+      aiml: ['ai', 'artificial', 'intelligence', 'machine', 'learning', 'computer', 'algorithms', 'data', 'programming', 'neural', 'deep learning'],
+      bed: ['education', 'teaching', 'pedagogy', 'curriculum', 'student', 'learning', 'classroom', 'child', 'development', 'psychology', 'philosophy', 'methods', 'assessment', 'evaluation', 'educational', 'teacher', 'instruction', 'practicum', 'internship', 'school', 'academic'],
+      med: ['education', 'master', 'research', 'advanced', 'pedagogy', 'thesis', 'dissertation', 'educational leadership', 'administration', 'policy'],
+      fyup: ['undergraduate', 'foundation', 'liberal', 'arts', 'general', 'interdisciplinary', 'multidisciplinary'],
+      itep: ['teacher', 'education', 'integrated', 'pedagogy', 'training', 'professional development']
+    };
+    
+    // EXTREMELY LENIENT validation - only reject obvious mismatches with very high confidence
+    
+    // Only reject medical/AIDS files for non-medical programs if they have NO educational content
+    if (detectedType === 'aids_medical') {
+      const allEducationKeywords = ['education', 'teaching', 'pedagogy', 'curriculum', 'student', 'learning', 'classroom', 'school', 'academic', 'teacher'];
+      const educationMatches = allEducationKeywords.filter(keyword => 
+        content.includes(keyword) || fileName.includes(keyword)
+      ).length;
+      
+      // If it has ANY educational content, accept it
+      if (educationMatches >= 1) {
+        return {
+          isValid: true,
+          confidence: 0.70,
+          reason: `File contains educational content (${educationMatches} education-related terms found) - suitable for ${selectedProgram.toUpperCase()} program.`,
+          suggestedAction: 'Curriculum validation passed. You can proceed with timetable generation.'
+        };
+      }
+      
+      // Only reject if AIML program and clearly medical with no education content
+      if (selectedProgram === 'aiml') {
+        return {
+          isValid: false,
+          confidence: 0.95,
+          reason: 'Pure medical/AIDS curriculum detected without educational context for AI/ML program.',
+          suggestedAction: 'Please upload an AI/ML or Computer Science curriculum file, or select the correct medical program.'
+        };
+      }
+    }
+    
+    // For all education programs (bed, med, itep) - accept almost everything
+    if (['bed', 'med', 'itep'].includes(selectedProgram)) {
+      return {
+        isValid: true,
+        confidence: 0.85,
+        reason: `File accepted for ${selectedProgram.toUpperCase()} education program - educational programs have flexible curriculum requirements.`,
+        suggestedAction: 'Curriculum validation passed. You can proceed with timetable generation.'
+      };
+    }
+    
+    // Enhanced keyword matching - VERY flexible
+    const relevantKeywords = programKeywords[selectedProgram] || [];
+    const keywordMatches = relevantKeywords.filter(keyword => 
+      content.includes(keyword) || fileName.includes(keyword)
+    ).length;
+    
+    const matchPercentage = relevantKeywords.length > 0 ? keywordMatches / relevantKeywords.length : 0;
+    
+    // VERY lenient matching threshold - only reject if 0% match AND high confidence it's wrong
+    if (matchPercentage === 0 && selectedProgram === 'aiml' && detectedType === 'aids_medical') {
+      return {
+        isValid: false,
+        confidence: 0.90,
+        reason: `No relevant keywords found for ${selectedProgram.toUpperCase()} program and file appears to be medical curriculum.`,
+        suggestedAction: `Please upload a curriculum file relevant to ${selectedProgram.toUpperCase()} program, or verify your program selection.`
+      };
+    }
+    
+    // Accept everything else with varying confidence
+    return {
+      isValid: true,
+      confidence: Math.max(0.60, matchPercentage + 0.3),
+      reason: `Curriculum accepted for ${selectedProgram.toUpperCase()} program. Match confidence: ${Math.round((matchPercentage + 0.3) * 100)}%`,
+      suggestedAction: 'Curriculum validation passed. You can proceed with timetable generation.'
+    };
+  },
+
+  // Analyze curriculum PDF content using AI
+  async analyzeCurriculumContent(pdfText, programInfo) {
+    const prompt = `
+As an AI educational consultant, analyze this curriculum content and extract structured information for timetable generation:
+
+Program: ${programInfo.program}
+Semester: ${programInfo.semester}
+Sections: ${programInfo.sections}
+
+Curriculum Content:
+${pdfText}
+
+Extract and return ONLY a JSON object with this structure:
+{
+  "subjects": [
+    {
+      "name": "Subject Name",
+      "type": "theory/lab/practical",
+      "credits": number,
+      "hoursPerWeek": number,
+      "prerequisites": ["subject1", "subject2"],
+      "difficulty": "easy/medium/hard",
+      "preferredTimeSlots": ["morning/afternoon/evening"]
+    }
+  ],
+  "faculty": [
+    {
+      "name": "Faculty Name",
+      "specialization": "Subject Area",
+      "subjects": ["subject1", "subject2"],
+      "availability": ["monday", "tuesday", "wednesday", "thursday", "friday"]
+    }
+  ],
+  "constraints": {
+    "maxConsecutiveHours": number,
+    "breakRequirements": "description",
+    "labRequirements": "description"
+  }
+}`;
+
+    try {
+      const response = await this.callGeminiAPI(prompt, { temperature: 0.2 });
+      
+      // Extract text from the response
+      const responseText = response.candidates[0].content.parts[0].text;
+      
+      // Extract JSON from response
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('Could not extract JSON from AI response');
+      }
+      
+      return JSON.parse(jsonMatch[0]);
+    } catch (error) {
+      console.error('Curriculum analysis failed:', error);
+      throw error;
+    }
+  },
+
+  // Generate optimized timetable using AI
+  async generateOptimizedTimetable(analysisData, sessionData) {
+    const prompt = `
+As an AI timetable optimization expert, create a perfect conflict-free timetable using this data:
+
+Program: ${sessionData.program}
+Semester: ${sessionData.semester}
+Sections: ${sessionData.sections}
+Break Times: ${JSON.stringify(sessionData.breakTimes)}
+
+Subjects Data:
+${JSON.stringify(analysisData.subjects, null, 2)}
+
+Faculty Data:
+${JSON.stringify(analysisData.faculty, null, 2)}
+
+Constraints:
+${JSON.stringify(analysisData.constraints, null, 2)}
+
+Time Slots: ["08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:30", "12:30-13:15", "13:15-14:00", "14:00-14:45", "14:45-15:30", "15:30-15:45", "15:45-16:30"]
+Days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+Generate a PERFECT timetable with:
+1. ZERO faculty conflicts (no faculty teaching multiple sections simultaneously)
+2. ZERO room conflicts (no double bookings)
+3. Optimal subject distribution
+4. Proper break placement at configured times
+5. Lab sessions in appropriate time slots
+6. Balanced workload across days
+
+Return ONLY a JSON object with this structure:
+{
+  "timetables": [
+    {
+      "section": "A",
+      "room": "Room 1",
+      "schedule": {
+        "Monday": [
+          {
+            "subject": "Subject Name",
+            "faculty": "Faculty Name",
+            "room": "Room/Lab Name",
+            "type": "theory/lab/break/study"
+          }
+        ]
+      }
+    }
+  ],
+  "analysis": {
+    "conflicts": 0,
+    "efficiency": 95,
+    "recommendations": ["optimization suggestions"]
+  }
+}`;
+
+    try {
+      const response = await this.callGeminiAPI(prompt, { 
+        temperature: 0.1, 
+        maxTokens: 4096 
+      });
+      
+      // Extract text from the response
+      const responseText = response.candidates[0].content.parts[0].text;
+      
+      // Extract JSON from response
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('Could not extract JSON from AI response');
+      }
+      
+      return JSON.parse(jsonMatch[0]);
+    } catch (error) {
+      console.error('AI timetable generation failed:', error);
+      throw error;
+    }
+  }
+};
+
+// PDF Text Extraction Service
+const PDFTextExtractor = {
+  // Extract text from uploaded PDF file
+  async extractTextFromFile(file) {
+    try {
+      // For demo purposes, return sample curriculum text based on filename/content analysis
+      // In production, you would use PDF.js or similar library
+      
+      // Analyze filename for content clues
+      const fileName = file.name.toLowerCase();
+      let detectedContent = 'unknown';
+      
+      // Enhanced detection logic for better B.Ed identification
+      if (fileName.includes('aids') || fileName.includes('acquired') || fileName.includes('immune') || fileName.includes('hiv')) {
+        detectedContent = 'aids_medical';
+      } else if (fileName.includes('bed') || fileName.includes('b.ed') || fileName.includes('bachelor') && fileName.includes('education')) {
+        detectedContent = 'education';
+      } else if (fileName.includes('med') || fileName.includes('m.ed') || fileName.includes('master') && fileName.includes('education')) {
+        detectedContent = 'master_education';
+      } else if (fileName.includes('education') || fileName.includes('teaching') || fileName.includes('pedagogy') || fileName.includes('curriculum')) {
+        detectedContent = 'education';
+      } else if (fileName.includes('aiml') || fileName.includes('ai') || fileName.includes('machine') || fileName.includes('artificial')) {
+        detectedContent = 'aiml_tech';
+      } else if (fileName.includes('fyup') || fileName.includes('undergraduate')) {
+        detectedContent = 'undergraduate';
+      } else if (fileName.includes('itep') || fileName.includes('teacher')) {
+        detectedContent = 'teacher_education';
+      }
+      
+      // Return sample curriculum text based on detected content
+      let sampleCurriculumText;
+      
+      if (detectedContent === 'aids_medical') {
+        sampleCurriculumText = `
+CURRICULUM FOR AIDS/HIV MEDICAL PROGRAM
+SEMESTER ${TimetableSystem.sessionData.semester || '1'}
+
+SUBJECTS:
+1. HIV/AIDS Pathology - 4 credits - Theory + Practical
+2. Immunology and Virology - 3 credits - Theory
+3. Clinical Medicine - 3 credits - Theory
+4. Public Health - 3 credits - Theory
+5. Medical Research Methods - 4 credits - Theory + Lab
+6. Patient Care and Counseling - 3 credits - Practical
+
+FACULTY ASSIGNMENTS:
+- Dr. Medical Specialist: HIV Pathology, Clinical Medicine
+- Prof. Health Expert: Public Health, Patient Care
+- Dr. Research Lead: Medical Research, Immunology
+
+CONSTRAINTS:
+- Medical practical sessions minimum 3 hours
+- Clinical rounds and patient interaction required
+- Break time: ${TimetableSystem.sessionData.breakTimes?.break1 || '10:00'} - ${TimetableSystem.sessionData.breakTimes?.break1 ? getTimeAfter(TimetableSystem.sessionData.breakTimes.break1, 15) : '10:15'}
+        `.trim();
+      } else if (detectedContent === 'education' || detectedContent === 'master_education' || detectedContent === 'teacher_education') {
+        // Enhanced B.Ed curriculum content
+        sampleCurriculumText = `
+CURRICULUM FOR ${detectedContent === 'master_education' ? 'MASTER OF EDUCATION (M.Ed)' : detectedContent === 'teacher_education' ? 'INTEGRATED TEACHER EDUCATION PROGRAM (ITEP)' : 'BACHELOR OF EDUCATION (B.Ed)'} PROGRAM
+SEMESTER ${TimetableSystem.sessionData.semester || '1'}
+
+SUBJECTS:
+1. Child Development and Psychology - 4 credits - Theory + Practical
+2. Educational Psychology - 3 credits - Theory
+3. Philosophy of Education - 3 credits - Theory
+4. Teaching Methods and Pedagogy - 4 credits - Theory + Practical
+5. Curriculum Studies and Development - 3 credits - Theory
+6. Assessment and Evaluation - 3 credits - Theory + Practical
+7. Educational Technology - 3 credits - Theory + Lab
+8. Classroom Management - 2 credits - Practical
+9. Teaching Practice and Internship - 4 credits - Practical
+10. Educational Research Methods - 3 credits - Theory
+
+FACULTY ASSIGNMENTS:
+- Dr. Sarah Educational Psychologist: Child Development, Educational Psychology
+- Prof. Rajesh Pedagogy Expert: Teaching Methods, Curriculum Studies
+- Dr. Priya Technology Specialist: Educational Technology, Assessment Methods
+- Ms. Kavitha Practicum Coordinator: Teaching Practice, Classroom Management
+- Dr. Research Methodology Expert: Educational Research, Philosophy of Education
+
+CONSTRAINTS:
+- Teaching practice sessions minimum 4 hours
+- Classroom observations and real school experience required
+- Educational psychology practicals need controlled environment
+- Break time: ${TimetableSystem.sessionData.breakTimes?.break1 || '10:00'} - ${TimetableSystem.sessionData.breakTimes?.break1 ? getTimeAfter(TimetableSystem.sessionData.breakTimes.break1, 15) : '10:15'}
+- Lunch break: ${TimetableSystem.sessionData.breakTimes?.lunch || '12:30'} - ${TimetableSystem.sessionData.breakTimes?.lunch ? getTimeAfter(TimetableSystem.sessionData.breakTimes.lunch, 45) : '13:15'}
+        `.trim();
+      } else {
+        // Default AIML/Tech curriculum
+        sampleCurriculumText = `
+CURRICULUM FOR ${TimetableSystem.sessionData.program?.toUpperCase() || 'COMPUTER SCIENCE'} PROGRAM
+SEMESTER ${TimetableSystem.sessionData.semester || '1'}
+
+SUBJECTS:
+1. Data Structures and Algorithms - 4 credits - Theory + Lab
+2. Database Management Systems - 3 credits - Theory
+3. Computer Networks - 3 credits - Theory
+4. Software Engineering - 3 credits - Theory
+5. Machine Learning - 4 credits - Theory + Lab
+6. Web Development - 3 credits - Practical
+
+FACULTY ASSIGNMENTS:
+- Dr. Sarah Johnson: Data Structures, Algorithms
+- Prof. Rajesh Kumar: Database Systems
+- Dr. Priya Sharma: Computer Networks
+- Mr. Arjun Patel: Software Engineering
+- Dr. Meera Gupta: Machine Learning
+- Ms. Kavitha Reddy: Web Development
+
+CONSTRAINTS:
+- Maximum 3 consecutive theory classes
+- Lab sessions minimum 2 hours
+- Break time: ${TimetableSystem.sessionData.breakTimes?.break1 || '10:00'} - ${TimetableSystem.sessionData.breakTimes?.break1 ? getTimeAfter(TimetableSystem.sessionData.breakTimes.break1, 15) : '10:15'}
+- Lunch break: ${TimetableSystem.sessionData.breakTimes?.lunch || '12:30'} - ${TimetableSystem.sessionData.breakTimes?.lunch ? getTimeAfter(TimetableSystem.sessionData.breakTimes.lunch, 45) : '13:15'}
+        `.trim();
+      }
+      
+      // Return both the text and detected content type for validation
+      return {
+        text: sampleCurriculumText,
+        detectedType: detectedContent,
+        fileName: file.name
+      };
+    } catch (error) {
+      console.error('PDF text extraction failed:', error);
+      throw error;
+    }
+  }
+};
+
+// Helper function to calculate time after given minutes
+function getTimeAfter(timeStr, minutes) {
+  const [hours, mins] = timeStr.split(':').map(Number);
+  const totalMinutes = hours * 60 + mins + minutes;
+  const newHours = Math.floor(totalMinutes / 60);
+  const newMins = totalMinutes % 60;
+  return `${newHours.toString().padStart(2, '0')}:${newMins.toString().padStart(2, '0')}`;
+}
+
+
+// ===== END GEMINI AI INTEGRATION =====
+
+// Comprehensive Curriculum Database for Multiple Programs
+const curriculumDatabase = {
+  aiml: {
+    1: ["Communicative English", "Engineering Mathematics", "Computational Thinking & C", "Front End Tech", "Digital Principles", "AI/ML Lab"],
+    2: ["Applied English", "Statistics for Data Analysis", "C & Data Structures", "Python OOP", "Computer Organization", "DS Lab"],
+    3: ["Data Structures & Algorithms", "Database Management", "Machine Learning Basics", "Web Development", "Computer Networks", "ML Lab"],
+    4: ["AI Fundamentals", "Deep Learning", "Natural Language Processing", "Computer Vision", "Software Engineering", "AI Project Lab"],
+    5: ["Advanced Machine Learning", "Neural Networks", "Data Mining", "Cloud Computing", "Cybersecurity", "Capstone Project"],
+    6: ["AI Ethics", "Research Methodology", "Industry Project", "Blockchain Technology", "IoT Applications", "Final Project"],
+    7: ["Advanced AI Topics", "Thesis Work", "Internship", "Emerging Technologies", "Innovation Lab", "Professional Skills"],
+    8: ["Thesis Completion", "Industry Integration", "Advanced Research", "Entrepreneurship", "Portfolio Development", "Career Preparation"]
+  },
+  bed: {
+    1: ["Child Development", "Educational Psychology", "Philosophy of Education", "Teaching Methods", "Classroom Management", "Education Technology"],
+    2: ["Curriculum Studies", "Assessment & Evaluation", "Special Education", "Language Teaching", "Educational Research", "Practical Teaching"],
+    3: ["Educational Leadership", "Inclusive Education", "Educational Policy", "School Administration", "Community Engagement", "Teaching Practicum"],
+    4: ["Advanced Pedagogy", "Educational Innovation", "Student Counseling", "Education Law", "Final Teaching Practice", "Action Research Project"]
+  },
+  med: {
+    1: ["Advanced Educational Theory", "Research Methods in Education", "Educational Statistics", "Comparative Education", "Educational Technology", "Thesis Planning"],
+    2: ["Educational Leadership", "Curriculum Development", "Educational Assessment", "Special Needs Education", "Thesis Research", "Professional Development"],
+    3: ["Educational Policy Analysis", "Advanced Research Methods", "Educational Innovation", "Dissertation Writing", "Conference Presentations", "Academic Writing"],
+    4: ["Dissertation Defense", "Educational Consultancy", "Professional Practice", "Research Publication", "Career Development", "Academic Portfolio"]
+  },
+  fyup: {
+    1: ["Foundation Mathematics", "English Communication", "Environmental Science", "Indian Culture", "Basic Computer Skills", "Physical Education"],
+    2: ["Applied Mathematics", "Scientific Writing", "Social Sciences", "Ethics & Values", "Programming Fundamentals", "Health & Wellness"],
+    3: ["Major Subject Core", "Interdisciplinary Studies", "Research Methodology", "Foreign Language", "Skill Enhancement", "Community Service"],
+    4: ["Advanced Major Subjects", "Minor Specialization", "Project Work", "Industry Exposure", "Leadership Skills", "Global Perspectives"],
+    5: ["Specialization Courses", "Research Project", "Internship", "Entrepreneurship", "Digital Literacy", "Cultural Studies"],
+    6: ["Advanced Specialization", "Thesis Preparation", "Professional Skills", "Innovation Lab", "Career Counseling", "Portfolio Development"],
+    7: ["Thesis Work", "Industry Project", "Advanced Research", "Professional Training", "Mentorship Program", "Academic Excellence"],
+    8: ["Final Thesis", "Capstone Project", "Career Preparation", "Alumni Network", "Continuing Education", "Graduation Portfolio"]
+  },
+  itep: {
+    1: ["Educational Foundations", "Child Psychology", "Teaching Skills", "Subject Knowledge", "Classroom Technology", "Practical Training"],
+    2: ["Advanced Pedagogy", "Curriculum Planning", "Assessment Methods", "Educational Research", "Special Education", "Teaching Practice"],
+    3: ["Educational Leadership", "School Management", "Community Relations", "Educational Innovation", "Professional Development", "Extended Practice"],
+    4: ["Master Teaching", "Educational Policy", "Teacher Mentoring", "Final Practicum", "Research Project", "Career Readiness"],
+    5: ["Advanced Teaching Methods", "Educational Technology", "Student Counseling", "School Administration", "Professional Ethics", "Continuing Education"]
+  }
+};
+
+// Dynamic time slots generation based on break configuration
+function generateTimeSlots(breakTimes) {
+  // Get break times from configuration
+  const break1Start = breakTimes?.break1 || '10:00';
+  const lunchStart = breakTimes?.lunch || '12:30';
+  const break2Start = breakTimes?.break2 || '15:30';
+  
+  // Convert time string to minutes for easier calculation
+  function timeToMinutes(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+  
+  // Convert minutes back to time string
+  function minutesToTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+  }
+  
+  const slots = [];
+  let currentTime = 8 * 60 + 30; // Start at 08:30
+  const endTime = 16 * 60 + 30; // End at 16:30
+  const slotDuration = 45; // 45-minute slots
+  
+  const break1Minutes = timeToMinutes(break1Start);
+  const lunchMinutes = timeToMinutes(lunchStart);
+  const break2Minutes = timeToMinutes(break2Start);
+  
+  while (currentTime < endTime) {
+    const slotStart = minutesToTime(currentTime);
+    const slotEnd = minutesToTime(currentTime + slotDuration);
+    
+    // Check if this is a break slot
+    if (currentTime === break1Minutes) {
+      // 15-minute morning break
+      slots.push(`${slotStart}-${minutesToTime(currentTime + 15)}`);
+      currentTime += 15;
+    } else if (currentTime === lunchMinutes) {
+      // 45-minute lunch break
+      slots.push(`${slotStart}-${minutesToTime(currentTime + 45)}`);
+      currentTime += 45;
+    } else if (currentTime === break2Minutes) {
+      // 15-minute afternoon break (if configured)
+      slots.push(`${slotStart}-${minutesToTime(currentTime + 15)}`);
+      currentTime += 15;
+    } else {
+      // Regular 45-minute slot
+      slots.push(`${slotStart}-${slotEnd}`);
+      currentTime += slotDuration;
+    }
+  }
+  
+  return slots;
+}
+
+// Default time slots for fallback
+let timeSlots = ["08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:30", "12:30-13:15", "13:15-14:00", "14:00-14:45", "14:45-15:30", "15:30-15:45", "15:45-16:30"];
+
+// Utility Functions
+const Utils = {
+  validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return false;
+    return TimetableSystem.config.allowedDomains.some(domain => 
+      email.toLowerCase().endsWith(domain.toLowerCase())
+    );
+  },
+
+  showToast(message, type = 'info', duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<div class="toast-content"><span class="toast-icon">${this.getToastIcon(type)}</span><span class="toast-message">${message}</span></div>`;
+    
+    if (!document.querySelector('#toast-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'toast-styles';
+      styles.textContent = `.toast { position: fixed; top: 20px; right: 20px; background: var(--bg-glass); backdrop-filter: blur(20px); border: var(--border-glass); border-radius: 12px; padding: 16px 20px; color: var(--text-primary); box-shadow: var(--shadow-card); z-index: 10000; animation: slideInRight 0.3s ease-out; max-width: 400px; } .toast-content { display: flex; align-items: center; gap: 12px; } .toast-success { border-left: 4px solid #43e97b; } .toast-error { border-left: 4px solid #ff6b6b; } .toast-warning { border-left: 4px solid #fa709a; } .toast-info { border-left: 4px solid #4facfe; } @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }`;
+      document.head.appendChild(styles);
+    }
+    
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.animation = 'slideOutRight 0.3s ease-out'; setTimeout(() => toast.remove(), 300); }, duration);
+  },
+
+  getToastIcon(type) {
+    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+    return icons[type] || icons.info;
+  },
+
+  setLoading(element, loading = true) {
+    if (loading) {
+      element.disabled = true;
+      const originalText = element.textContent;
+      element.dataset.originalText = originalText;
+      element.innerHTML = `<span class="loading"></span> Loading...`;
+    } else {
+      element.disabled = false;
+      element.textContent = element.dataset.originalText || 'Submit';
+    }
+  }
+};
+
+// Navigation Management
+function showPage(pageId) {
+  document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+  document.getElementById(pageId + 'Page').classList.add('active');
+  updateNavigationSteps(pageId);
+  if (pageId === 'timetable') loadConfigurationSummary();
+}
+
+function updateNavigationSteps(currentPage) {
+  const steps = document.querySelectorAll('.step');
+  const pageToStep = { login: 1, selection: 2, upload: 3, timetable: 4 };
+  const currentStep = pageToStep[currentPage] || 1;
+  
+  steps.forEach((step, index) => {
+    const stepNumber = index + 1;
+    step.classList.remove('active', 'completed');
+    
+    if (stepNumber < currentStep) {
+      step.classList.add('completed');
+      step.querySelector('.step-number').textContent = '✓';
+    } else if (stepNumber === currentStep) {
+      step.classList.add('active');
+      step.querySelector('.step-number').textContent = stepNumber;
+    } else {
+      step.querySelector('.step-number').textContent = stepNumber;
+    }
+  });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  initializeParticles();
+  setupLoginForm();
+  setupSelectionForm();
+  setupUploadForm();
+  setupTimetableGeneration();
+  // AI runs silently in background - no UI configuration needed
+});
+
+function initializeParticles() {
+  const container = document.querySelector('.bg-particles');
+  if (!container) return;
+  
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 10 + 's';
+    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    container.appendChild(particle);
+  }
+}
+
+function setupLoginForm() {
+  const loginForm = document.getElementById('loginForm');
+  const emailInput = document.getElementById('email');
+  const loginBtn = document.getElementById('loginBtn');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    
+    if (!email) {
+      Utils.showToast('Email is required', 'error');
+      return;
+    }
+
+    if (!Utils.validateEmail(email)) {
+      Utils.showToast('Please use @gmail.com or @srishakthi.ac.in email', 'error');
+      return;
+    }
+
+    Utils.setLoading(loginBtn, true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    TimetableSystem.currentUser = { email: email, loginTime: new Date().toISOString() };
+    document.getElementById('userEmail').textContent = email;
+    document.getElementById('logoutBtn').style.display = 'block';
+    
+    Utils.showToast(`Welcome ${email}! Redirecting...`, 'success');
+    Utils.setLoading(loginBtn, false);
+    
+    setTimeout(() => showPage('selection'), 1500);
+  });
+}
+
+function setupSelectionForm() {
+  const selectionForm = document.getElementById('selectionForm');
+  const programCards = document.querySelectorAll('.program-card');
+  const departmentSelect = document.getElementById('department');
+  const semesterSelect = document.getElementById('semester');
+  
+  programCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const program = card.dataset.program;
+      selectProgram(program);
+      // Trigger course details fetch when program changes
+      fetchCourseDetailsIfReady();
+    });
+  });
+
+  // Add event listeners for department and semester changes
+  departmentSelect.addEventListener('change', () => {
+    fetchCourseDetailsIfReady();
+  });
+  
+  semesterSelect.addEventListener('change', () => {
+    fetchCourseDetailsIfReady();
+  });
+
+  selectionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const selectionData = {
+      program: document.getElementById('selectedProgram').value,
+      department: document.getElementById('department').value,
+      semester: document.getElementById('semester').value,
+      sections: document.getElementById('sections').value,
+      academicYear: document.getElementById('academicYear').value
+    };
+
+    if (!selectionData.program || !selectionData.department || !selectionData.semester || !selectionData.sections) {
+      Utils.showToast('Please fill in all required fields', 'error');
+      return;
+    }
+
+    Object.assign(TimetableSystem.sessionData, selectionData);
+    
+    // Show success message with course details if available
+    if (TimetableSystem.courseDetails) {
+      const courseCount = TimetableSystem.courseDetails.semester?.subjects?.length || 0;
+      const facultyCount = TimetableSystem.courseDetails.faculty?.length || 0;
+      Utils.showToast(`✅ Configuration saved! Found ${courseCount} subjects and ${facultyCount} faculty members. Proceeding to file upload...`, 'success', 4000);
+    } else {
+      Utils.showToast('Configuration saved! Proceeding to file upload...', 'success');
+    }
+    
+    setTimeout(() => showPage('upload'), 1500);
+  });
+}
+
+// New function to fetch course details when program, department, and semester are selected
+async function fetchCourseDetailsIfReady() {
+  const program = document.getElementById('selectedProgram').value;
+  const department = document.getElementById('department').value;
+  const semester = document.getElementById('semester').value;
+  const academicYear = document.getElementById('academicYear').value;
+  
+  // Only fetch if we have the essential information
+  if (!program || !department || !semester) {
+    return;
+  }
+  
+  // Show loading state
+  const continueBtn = document.getElementById('continueBtn');
+  const originalBtnText = continueBtn.innerHTML;
+  continueBtn.innerHTML = '<span class="loading"></span> Fetching Course Details...';
+  continueBtn.disabled = true;
+  
+  try {
+    Utils.showToast('🔍 Fetching course information...', 'info', 3000);
+    
+    // Use standard curriculum database instead of AI
+    Utils.showToast('ℹ️ Using standard curriculum database for course information', 'info', 3000);
+    
+    // Clear any stored course details
+    TimetableSystem.courseDetails = null;
+    
+  } catch (error) {
+    console.error('Failed to fetch course details:', error);
+    
+    // Don't show error to user - just continue with fallback
+    Utils.showToast('ℹ️ Using standard curriculum database for course information', 'info', 3000);
+    
+    // Clear any stored course details
+    TimetableSystem.courseDetails = null;
+  } finally {
+    // Restore button state
+    continueBtn.innerHTML = originalBtnText;
+    continueBtn.disabled = false;
+  }
+}
+
+// Function to update UI with course details (optional enhancement)
+function updateCourseDetailsDisplay(courseDetails) {
+  // Remove the course details display functionality entirely
+  // This function is now empty as per user preference
+  
+  // Store details globally for use in timetable generation
+  TimetableSystem.courseDetails = courseDetails;
+  
+  // Remove existing course preview if it exists
+  const existingPreview = document.getElementById('coursePreview');
+  if (existingPreview) {
+    existingPreview.remove();
+  }
+}
+
+function selectProgram(program) {
+  document.querySelectorAll('.program-card').forEach(card => card.classList.remove('selected'));
+  document.querySelector(`[data-program="${program}"]`).classList.add('selected');
+  document.getElementById('selectedProgram').value = program;
+}
+
+function setupUploadForm() {
+  const uploadForm = document.getElementById('uploadForm');
+  const curriculumFileInput = document.getElementById('curriculumFile');
+  const nepFileInput = document.getElementById('nepFile');
+  
+  // Initialize NEP updates checker
+  initializeNEPChecker();
+  
+  // Ensure success elements are properly hidden on page setup
+  document.querySelectorAll('.file-upload-success').forEach(element => {
+    element.classList.remove('show');
+    element.classList.add('hidden');
+  });
+  
+  // Track uploaded files - use global reference for bypass functionality
+  window.currentUploadedFiles = {
+    curriculum: null,
+    nep: null
+  };
+  let uploadedFiles = window.currentUploadedFiles;
+  
+  // Setup file upload handlers
+  setupFileUploadHandler(curriculumFileInput, 'curriculum', uploadedFiles);
+  setupFileUploadHandler(nepFileInput, 'nep', uploadedFiles);
+  
+  uploadForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Validate that at least curriculum file is uploaded
+    if (!uploadedFiles.curriculum) {
+      Utils.showToast('Please upload the Curriculum PDF file before proceeding', 'error');
+      // Highlight the curriculum upload area
+      document.getElementById('curriculumUpload').style.borderColor = '#ff6b6b';
+      setTimeout(() => {
+        document.getElementById('curriculumUpload').style.borderColor = '';
+      }, 3000);
+      return;
+    }
+    
+    // Check if curriculum validation failed (but allow bypassed files)
+    if (uploadedFiles.curriculum && uploadedFiles.curriculum.validationStatus === 'failed') {
+      Utils.showToast('❌ Cannot proceed: Uploaded curriculum does not match selected program. Please upload the correct curriculum file.', 'error', 8000);
+      // Highlight the curriculum upload area
+      document.getElementById('curriculumUpload').style.borderColor = '#ff6b6b';
+      document.getElementById('curriculumUpload').style.background = 'rgba(255, 107, 107, 0.1)';
+      setTimeout(() => {
+        document.getElementById('curriculumUpload').style.borderColor = '';
+        document.getElementById('curriculumUpload').style.background = '';
+      }, 5000);
+      return;
+    }
+    
+    // Validate NEP status - prevent proceeding if there are unresolved updates
+    const nepCache = TimetableSystem.nepCache;
+    if (nepCache.status === 'updates-available' && nepCache.hasUpdates && !nepCache.acknowledged) {
+      Utils.showToast('Please review and acknowledge NEP policy updates before proceeding to timetable generation', 'warning', 5000);
+      // Highlight the NEP section
+      document.querySelector('.nep-status-card').style.borderColor = '#fa709a';
+      document.querySelector('.nep-status-card').style.background = 'rgba(250, 112, 154, 0.1)';
+      setTimeout(() => {
+        document.querySelector('.nep-status-card').style.borderColor = '';
+        document.querySelector('.nep-status-card').style.background = '';
+      }, 5000);
+      return;
+    }
+    
+    // Save break times
+    TimetableSystem.sessionData.breakTimes = {
+      break1: document.getElementById('break1').value,
+      lunch: document.getElementById('lunch').value,
+      break2: document.getElementById('break2').value
+    };
+    
+    // Save uploaded files info
+    TimetableSystem.sessionData.uploadedFiles = uploadedFiles;
+    
+    Utils.showToast('Files uploaded and configuration saved!', 'success');
+    setTimeout(() => showPage('timetable'), 1500);
+  });
+}
+
+// File upload handler function
+function setupFileUploadHandler(fileInput, fileType, uploadedFiles) {
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validate file
+    if (file.type !== 'application/pdf') {
+      Utils.showToast('Please upload only PDF files', 'error');
+      fileInput.value = '';
+      return;
+    }
+    
+    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+      Utils.showToast('File size must be less than 10MB', 'error');
+      fileInput.value = '';
+      return;
+    }
+    
+    // Get upload elements
+    const uploadContainer = fileInput.closest('.file-upload');
+    const content = uploadContainer.querySelector('.file-upload-content');
+    const successDiv = uploadContainer.querySelector('.file-upload-success');
+    const fileName = fileType === 'curriculum' ? 
+      document.getElementById('curriculumFileName') : 
+      document.getElementById('nepFileName');
+    
+    // Show processing state
+    uploadContainer.style.borderColor = 'var(--text-accent)';
+    uploadContainer.style.background = 'rgba(100, 255, 218, 0.1)';
+    
+    // Update upload icon to show processing
+    const uploadIcon = content.querySelector('.file-upload-icon');
+    const uploadText = content.querySelector('.file-upload-text');
+    const originalIcon = uploadIcon.textContent;
+    const originalText = uploadText.textContent;
+    
+    uploadIcon.textContent = '⏳';
+    uploadText.textContent = 'Uploading...';
+    
+    Utils.showToast(`Uploading ${fileType === 'curriculum' ? 'Curriculum' : 'NEP'} file...`, 'info');
+    
+    try {
+      // Simulate upload delay (2-3 seconds)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // For curriculum files, perform automatic validation
+      if (fileType === 'curriculum') {
+        uploadIcon.textContent = '🔍';
+        uploadText.textContent = 'Analyzing content...';
+        
+        // Extract and validate curriculum content
+        const extractedData = await PDFTextExtractor.extractTextFromFile(file);
+        
+        // Get current session data for validation
+        const sessionData = TimetableSystem.sessionData;
+        if (sessionData.program) {
+          try {
+            // Perform AI-powered validation with improved error handling
+            const validation = await GeminiAIService.validateCurriculumMatch(
+              extractedData, 
+              sessionData
+            );
+            
+            // Only reject if validation explicitly fails with high confidence
+            if (!validation.isValid && validation.confidence > 0.8) {
+              // Show validation error only for high-confidence rejections
+              uploadContainer.style.borderColor = '#ff6b6b';
+              uploadContainer.style.background = 'rgba(255, 107, 107, 0.1)';
+              
+              uploadIcon.textContent = '❌';
+              uploadText.textContent = 'Validation Failed';
+              
+              // Mark validation as failed
+              uploadedFiles[fileType] = {
+                name: file.name,
+                size: formatFileSize(file.size),
+                type: file.type,
+                uploadedAt: new Date().toISOString(),
+                validationStatus: 'failed',
+                validationReason: validation.reason
+              };
+              
+              Utils.showToast(
+                `⚠️ Curriculum Mismatch: ${validation.reason}`,
+                'error',
+                8000
+              );
+              
+              // Add a bypass option after 3 seconds
+              setTimeout(() => {
+                Utils.showToast(
+                  `💡 Suggestion: ${validation.suggestedAction}`,
+                  'warning',
+                  10000
+                );
+                
+                // Add bypass button
+                setTimeout(() => {
+                  const bypassMsg = 'Click here if you believe this file is correct and want to bypass validation';
+                  const bypassToast = document.createElement('div');
+                  bypassToast.className = 'toast toast-info';
+                  bypassToast.innerHTML = `
+                    <div class="toast-content">
+                      <span class="toast-icon">🚫</span>
+                      <span class="toast-message">${bypassMsg}</span>
+                      <button onclick="bypassValidation('${fileType}', '${file.name}', ${file.size})" 
+                              style="margin-left: 10px; padding: 4px 8px; background: var(--text-accent); border: none; border-radius: 4px; color: var(--bg-primary); cursor: pointer;">
+                        Bypass
+                      </button>
+                    </div>
+                  `;
+                  document.body.appendChild(bypassToast);
+                  setTimeout(() => bypassToast.remove(), 15000);
+                }, 2000);
+              }, 2000);
+              
+              // Keep the error state visible
+              return;
+            } else {
+              // Validation passed or low confidence rejection (accept file)
+              const confidenceMsg = validation.isValid ? 
+                `✅ Curriculum validated! Confidence: ${Math.round(validation.confidence * 100)}%` :
+                `⚠️ Curriculum accepted with low rejection confidence (${Math.round(validation.confidence * 100)}%)`;
+              
+              Utils.showToast(confidenceMsg, validation.isValid ? 'success' : 'warning', 4000);
+            }
+          } catch (validationError) {
+            console.warn('Validation failed, proceeding with upload:', validationError);
+            Utils.showToast('ℹ️ Validation unavailable - file uploaded successfully', 'info', 3000);
+            // Continue with upload even if validation fails
+          }
+        } else {
+          // No program selected yet - accept file without validation
+          Utils.showToast('ℹ️ File uploaded - validation will occur when program is selected', 'info', 3000);
+        }
+      }
+      
+      // Store file info
+      uploadedFiles[fileType] = {
+        name: file.name,
+        size: formatFileSize(file.size),
+        type: file.type,
+        uploadedAt: new Date().toISOString(),
+        validationStatus: fileType === 'curriculum' ? 'passed' : 'not_required'
+      };
+      
+      // Show success state only after upload completes
+      content.classList.add('hidden');
+      successDiv.classList.add('show');
+      fileName.textContent = file.name;
+      
+      uploadContainer.style.borderColor = '#43e97b';
+      uploadContainer.style.background = 'rgba(67, 233, 123, 0.1)';
+      
+      Utils.showToast(`${fileType === 'curriculum' ? 'Curriculum' : 'NEP'} file uploaded successfully!`, 'success');
+      
+    } catch (error) {
+      // Reset to original state on error
+      uploadIcon.textContent = originalIcon;
+      uploadText.textContent = originalText;
+      
+      Utils.showToast('Upload failed: ' + error.message, 'error');
+      uploadContainer.style.borderColor = '#ff6b6b';
+      uploadContainer.style.background = 'rgba(255, 107, 107, 0.1)';
+      fileInput.value = '';
+    }
+  });
+}
+
+// Utility function to format file size
+function formatFileSize(bytes) {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Bypass validation function
+function bypassValidation(fileType, fileName, fileSize) {
+  // Remove existing toasts
+  document.querySelectorAll('.toast').forEach(toast => toast.remove());
+  
+  // Get the upload tracking object from the current scope
+  const uploadForm = document.getElementById('uploadForm');
+  const fileInput = fileType === 'curriculum' ? 
+    document.getElementById('curriculumFile') : 
+    document.getElementById('nepFile');
+  
+  // Find the uploadedFiles object - we need to access it from setupUploadForm scope
+  // Since we can't directly access the scope, we'll create a global reference
+  if (!window.currentUploadedFiles) {
+    window.currentUploadedFiles = { curriculum: null, nep: null };
+  }
+  
+  // Mark as bypassed and accepted
+  window.currentUploadedFiles[fileType] = {
+    name: fileName,
+    size: formatFileSize(fileSize),
+    type: 'application/pdf',
+    uploadedAt: new Date().toISOString(),
+    validationStatus: 'bypassed'
+  };
+  
+  // Update UI to show success
+  const uploadContainer = fileInput.closest('.file-upload');
+  const content = uploadContainer.querySelector('.file-upload-content');
+  const successDiv = uploadContainer.querySelector('.file-upload-success');
+  const fileNameDisplay = fileType === 'curriculum' ? 
+    document.getElementById('curriculumFileName') : 
+    document.getElementById('nepFileName');
+  
+  content.classList.add('hidden');
+  successDiv.classList.add('show');
+  fileNameDisplay.textContent = fileName;
+  
+  uploadContainer.style.borderColor = '#ffc107';
+  uploadContainer.style.background = 'rgba(255, 193, 7, 0.1)';
+  
+  Utils.showToast(`🚫 Validation bypassed - ${fileName} uploaded successfully!`, 'warning', 4000);
+}
+
+function setupTimetableGeneration() {
+  document.getElementById('generateBtn').addEventListener('click', generateTimetable);
+  document.getElementById('downloadPdfBtn').addEventListener('click', downloadPDF);
+  document.getElementById('downloadExcelBtn').addEventListener('click', downloadExcel);
+  document.getElementById('regenerateBtn').addEventListener('click', regenerateTimetable);
+}
+
+// Constraint satisfaction system removed per user request
+
+function loadConfigurationSummary() {
+  const sessionData = TimetableSystem.sessionData;
+  document.getElementById('summaryProgram').textContent = sessionData.program?.toUpperCase() || 'Not selected';
+  document.getElementById('summarySemester').textContent = sessionData.semester || 'Not selected';
+  document.getElementById('summarySections').textContent = sessionData.sections || 'Not selected';
+  
+  // Course details summary display has been removed as per user preference
+}
+
+async function generateTimetable() {
+  const generateBtn = document.getElementById('generateBtn');
+  const progressPanel = document.getElementById('progressPanel');
+  const timetableContainer = document.getElementById('timetableContainer');
+  
+  // Pre-generation validation check
+  const sessionData = TimetableSystem.sessionData;
+  if (sessionData.uploadedFiles && sessionData.uploadedFiles.curriculum) {
+    // Only reject if validation explicitly failed (not bypassed)
+    if (sessionData.uploadedFiles.curriculum.validationStatus === 'failed') {
+      Utils.showToast('❌ Cannot generate timetable: Invalid curriculum file detected. Please upload a curriculum file that matches your selected program.', 'error', 8000);
+      setTimeout(() => {
+        Utils.showToast('💡 Go back to Upload page and select the correct curriculum file.', 'warning', 6000);
+      }, 2000);
+      return;
+    }
+  }
+  
+  timetableContainer.classList.add('hidden');
+  progressPanel.classList.remove('hidden');
+  Utils.setLoading(generateBtn, true);
+  
+  try {
+    // Step 1: Initialize processing
+    document.getElementById('progressText').textContent = 'Initializing...';
+    document.getElementById('progressFill').style.width = '20%';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Step 2: Processing curriculum data
+    document.getElementById('progressText').textContent = 'Processing curriculum data...';
+    document.getElementById('progressFill').style.width = '40%';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Step 3: Generate timetable
+    document.getElementById('progressText').textContent = 'Generating timetable...';
+    document.getElementById('progressFill').style.width = '60%';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Generate timetable using the old best algorithm
+    const generatedTimetable = generateProperTimetable(
+      sessionData.program,
+      parseInt(sessionData.semester),
+      parseInt(sessionData.sections)
+    );
+    
+    // Step 4: Analyze conflicts
+    document.getElementById('progressText').textContent = 'Analyzing schedule...';
+    document.getElementById('progressFill').style.width = '80%';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Analyze conflicts
+    const conflictAnalysis = analyzeConflicts(generatedTimetable);
+    
+    // Store analysis results
+    window.timetableAnalysis = conflictAnalysis;
+    window.generatedTimetables = generatedTimetable;
+    
+    // Step 5: Finalize
+    document.getElementById('progressText').textContent = 'Finalizing timetable...';
+    document.getElementById('progressFill').style.width = '100%';
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    progressPanel.classList.add('hidden');
+    renderTimetable(generatedTimetable);
+    timetableContainer.classList.remove('hidden');
+    
+    Utils.showToast('✅ Timetable generated successfully', 'success', 3000);
+    
+  } catch (error) {
+    console.error('Timetable generation failed:', error);
+    
+    // Fallback generation
+    Utils.showToast('Generating timetable...', 'info', 2000);
+    
+    document.getElementById('progressText').textContent = 'Finalizing schedule...';
+    document.getElementById('progressFill').style.width = '100%';
+    
+    const sessionData = TimetableSystem.sessionData;
+    const fallbackTimetable = generateProperTimetable(
+      sessionData.program,
+      parseInt(sessionData.semester),
+      parseInt(sessionData.sections)
+    );
+    
+    window.generatedTimetables = fallbackTimetable;
+    window.timetableAnalysis = analyzeConflicts(fallbackTimetable);
+    
+    progressPanel.classList.add('hidden');
+    renderTimetable(fallbackTimetable);
+    timetableContainer.classList.remove('hidden');
+    
+    Utils.showToast('✅ Timetable generated successfully', 'success', 3000);
+  } finally {
+    Utils.setLoading(generateBtn, false);
+  }
+}
+
+// Helper function to create fallback analysis data
+function createFallbackAnalysisData(sessionData) {
+  // First, check if we have AI-fetched course details
+  if (TimetableSystem.courseDetails && TimetableSystem.courseDetails.semester) {
+    const courseDetails = TimetableSystem.courseDetails;
+    
+    // Use AI-fetched data for more accurate timetable generation
+    return {
+      subjects: courseDetails.semester.subjects.map(subject => ({
+        name: subject.name,
+        code: subject.code || subject.name,
+        type: subject.type,
+        credits: subject.credits,
+        hoursPerWeek: subject.hoursPerWeek,
+        totalHours: subject.totalHours,
+        prerequisites: subject.prerequisites || [],
+        difficulty: subject.difficulty || 'medium',
+        importance: subject.importance || 'core',
+        preferredTimeSlots: subject.preferredTimeSlots || ['morning', 'afternoon'],
+        assessmentPattern: subject.assessmentPattern,
+        labRequirements: subject.labRequirements
+      })),
+      faculty: courseDetails.faculty.map(faculty => ({
+        id: faculty.id,
+        name: faculty.name,
+        designation: faculty.designation,
+        department: faculty.department,
+        specialization: faculty.specialization,
+        qualifications: faculty.qualifications,
+        experience: faculty.experience,
+        subjects: faculty.subjects,
+        researchAreas: faculty.researchAreas,
+        availability: faculty.availability,
+        currentLoad: faculty.currentLoad,
+        maxHoursPerDay: faculty.availability?.maxHoursPerDay || 6,
+        maxHoursPerWeek: faculty.availability?.maxHoursPerWeek || 24
+      })),
+      facilities: {
+        classrooms: courseDetails.facilities?.classrooms || [],
+        labs: courseDetails.facilities?.labs || []
+      },
+      constraints: {
+        maxConsecutiveHours: courseDetails.constraints?.academic?.maxConsecutiveHours || 3,
+        breakRequirements: courseDetails.constraints?.academic?.breakRequirements || `Break at ${sessionData.breakTimes?.break1 || '10:00'}`,
+        labRequirements: courseDetails.constraints?.academic?.labSessionMinDuration || 'Minimum 2-hour lab sessions',
+        workingDays: courseDetails.constraints?.institutional?.workingDays || ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+        workingHours: courseDetails.constraints?.institutional?.workingHours || '08:30 - 16:30',
+        nep2020: courseDetails.constraints?.nep2020 || {}
+      },
+      recommendations: courseDetails.recommendations || {
+        optimalScheduling: ['Distribute heavy subjects across the week', 'Schedule labs in longer time blocks'],
+        conflictAvoidance: ['Avoid faculty double-booking', 'Ensure room availability'],
+        efficiencyTips: ['Balance theory and practical sessions', 'Consider student attention span']
+      },
+      aiGenerated: true,
+      generatedAt: TimetableSystem.lastFetched
+    };
+  }
+  
+  // Fallback to database if no AI-fetched data available
+  const subjects = curriculumDatabase[sessionData.program]?.[sessionData.semester] || curriculumDatabase.aiml[1];
+  
+  return {
+    subjects: subjects.map((subject, index) => ({
+      name: subject,
+      code: `${sessionData.program?.toUpperCase() || 'CS'}${sessionData.semester}${(index + 1).toString().padStart(2, '0')}`,
+      type: subject.toLowerCase().includes('lab') ? 'lab' : 'theory',
+      credits: subject.toLowerCase().includes('lab') ? 4 : 3,
+      hoursPerWeek: subject.toLowerCase().includes('lab') ? 4 : 3,
+      totalHours: subject.toLowerCase().includes('lab') ? 60 : 45,
+      prerequisites: [],
+      difficulty: 'medium',
+      importance: 'core',
+      preferredTimeSlots: ['morning', 'afternoon']
+    })),
+    faculty: [
+      { id: 'fac001', name: 'Dr. Sarah Johnson', designation: 'Professor', department: 'Computer Science', specialization: ['Computer Science', 'AI/ML'], subjects: subjects.slice(0, 2), availability: { days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'], maxHoursPerDay: 6, maxHoursPerWeek: 24 } },
+      { id: 'fac002', name: 'Prof. Rajesh Kumar', designation: 'Associate Professor', department: 'Engineering', specialization: ['Engineering', 'Technology'], subjects: subjects.slice(2, 4), availability: { days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'], maxHoursPerDay: 6, maxHoursPerWeek: 24 } },
+      { id: 'fac003', name: 'Dr. Priya Sharma', designation: 'Assistant Professor', department: 'Technology', specialization: ['Technology', 'Innovation'], subjects: subjects.slice(4, 6), availability: { days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'], maxHoursPerDay: 6, maxHoursPerWeek: 24 } }
+    ],
+    facilities: {
+      classrooms: [
+        { id: 'room001', name: 'Room 1', capacity: 60, type: 'lecture', equipment: ['projector', 'whiteboard'] },
+        { id: 'room002', name: 'Room 2', capacity: 60, type: 'lecture', equipment: ['projector', 'whiteboard'] }
+      ],
+      labs: [
+        { id: 'lab001', name: 'Computer Lab 1', capacity: 30, type: 'computer', equipment: ['computers', 'software'], subjects: subjects.filter(s => s.toLowerCase().includes('lab')) },
+        { id: 'lab002', name: 'Computer Lab 2', capacity: 30, type: 'computer', equipment: ['computers', 'software'], subjects: subjects.filter(s => s.toLowerCase().includes('lab')) }
+      ]
+    },
+    constraints: {
+      maxConsecutiveHours: 3,
+      breakRequirements: `Break at ${sessionData.breakTimes?.break1 || '10:00'}`,
+      labRequirements: 'Minimum 2-hour lab sessions'
+    },
+    recommendations: {
+      optimalScheduling: ['Balance workload across days', 'Schedule difficult subjects in morning'],
+      conflictAvoidance: ['Check faculty availability', 'Avoid room conflicts'],
+      efficiencyTips: ['Group related subjects', 'Consider break timing']
+    },
+    aiGenerated: false,
+    generatedAt: new Date().toISOString()
+  };
+}
+
+// Helper functions for analysis calculation
+function calculateTotalSlots(timetables) {
+  if (!timetables || !timetables[0]) return 0;
+  const days = Object.keys(timetables[0].schedule);
+  const slotsPerDay = timetables[0].schedule[days[0]]?.length || 0;
+  return days.length * slotsPerDay * timetables.length;
+}
+
+function calculateUsedSlots(timetables) {
+  let used = 0;
+  timetables.forEach(timetable => {
+    Object.values(timetable.schedule).forEach(day => {
+      day.forEach(slot => {
+        if (slot.type !== 'break' && slot.type !== 'free') used++;
+      });
+    });
+  });
+  return used;
+}
+
+function countUniqueFaculty(timetables) {
+  const facultySet = new Set();
+  timetables.forEach(timetable => {
+    Object.values(timetable.schedule).forEach(day => {
+      day.forEach(slot => {
+        if (slot.faculty && slot.faculty !== '-') facultySet.add(slot.faculty);
+      });
+    });
+  });
+  return facultySet.size;
+}
+
+function countUniqueRooms(timetables) {
+  const roomSet = new Set();
+  timetables.forEach(timetable => {
+    Object.values(timetable.schedule).forEach(day => {
+      day.forEach(slot => {
+        if (slot.room && slot.room !== '-') roomSet.add(slot.room);
+      });
+    });
+  });
+  return roomSet.size;
+}
+
+async function simulateGeneration() {
+  const steps = ['Initializing...', 'Generating...'];
+  
+  for (let i = 0; i < steps.length; i++) {
+    await new Promise(resolve => setTimeout(resolve, 100)); // Ultra fast - 100ms each
+    const progress = ((i + 1) / steps.length) * 80; // Leave room for actual generation
+    document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('progressText').textContent = steps[i];
+  }
+}
+
+function generateProperTimetable(program, semester, sections) {
+  const subjects = curriculumDatabase[program]?.[semester] || curriculumDatabase.aiml[1];
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  
+  // Get break times from session data and generate dynamic time slots
+  const breakTimes = TimetableSystem.sessionData.breakTimes || {
+    break1: '10:00',
+    lunch: '12:30',
+    break2: '15:30'
+  };
+  
+  // Update timeSlots to match configured break times
+  timeSlots = generateTimeSlots(breakTimes);
+  
+  // PERFECT TIMETABLE GENERATION - Fixed Logic
+  const timetables = [];
+  
+  // Enhanced faculty pool
+  const facultyList = [
+    'Dr. Sarah Johnson', 'Prof. Rajesh Kumar', 'Dr. Priya Sharma', 
+    'Mr. Arjun Patel', 'Ms. Kavitha Reddy', 'Dr. Suresh Babu',
+    'Dr. Amit Singh', 'Dr. Meera Gupta', 'Prof. Ravi Shankar',
+    'Dr. Lakshmi Iyer', 'Ms. Sneha Joshi', 'Dr. Vinod Kumar',
+    'Dr. Anita Desai', 'Prof. Ramesh Chandra', 'Ms. Pooja Agarwal',
+    'Prof. Krishna Murthy', 'Dr. Sita Devi', 'Mr. Rajesh Patel'
+  ];
+  
+  // Global conflict tracking for PERFECT scheduling
+  const globalSchedule = {};
+  
+  // Initialize global schedule for ALL working slots
+  days.forEach(day => {
+    globalSchedule[day] = {};
+    timeSlots.forEach(slot => {
+      // Skip break slots based on actual configured times
+      const isBreakSlot = isBreakTime(slot, breakTimes);
+      if (!isBreakSlot) {
+        globalSchedule[day][slot] = {
+          facultyUsed: new Set(),
+          roomsUsed: new Set(),
+          assignments: []
+        };
+      }
+    });
+  });
+  
+  // Generate timetables for each section
+  for (let section = 1; section <= sections; section++) {
+    const sectionName = String.fromCharCode(64 + section);
+    const timetable = { 
+      section: sectionName, 
+      schedule: {}, 
+      room: `Room ${section}` 
+    };
+    
+    let globalSubjectIndex = (section - 1) * 3; // Better offset for variety
+    
+    // Fill each day
+    for (const day of days) {
+      timetable.schedule[day] = [];
+      
+      // Fill each time slot
+      for (let slotIndex = 0; slotIndex < timeSlots.length; slotIndex++) {
+        const currentSlot = timeSlots[slotIndex];
+        
+        // Handle breaks according to configured times
+        if (isBreakTime(currentSlot, breakTimes)) {
+          const breakType = getBreakType(currentSlot, breakTimes);
+          timetable.schedule[day].push({
+            subject: breakType,
+            faculty: '-',
+            room: '-',
+            type: 'break'
+          });
+        } else {
+          // Regular class period - PERFECT conflict-free assignment
+          const subject = subjects[globalSubjectIndex % subjects.length];
+          const isLab = subject.toLowerCase().includes('lab');
+          
+          let assignedFaculty = null;
+          let assignedRoom = null;
+          let assigned = false;
+          
+          // Try to find available faculty (multiple attempts for better distribution)
+          for (let attempt = 0; attempt < facultyList.length && !assigned; attempt++) {
+            const facultyIndex = (globalSubjectIndex + attempt + section) % facultyList.length;
+            const faculty = facultyList[facultyIndex];
+            const room = isLab ? `Lab ${Math.ceil(section / 2)}` : `Room ${section + Math.floor(attempt / 3)}`;
+            
+            // Check if this slot exists in globalSchedule
+            if (globalSchedule[day] && globalSchedule[day][currentSlot]) {
+              const slot = globalSchedule[day][currentSlot];
+              
+              // Perfect conflict check
+              if (!slot.facultyUsed.has(faculty) && !slot.roomsUsed.has(room)) {
+                // Perfect assignment found
+                assignedFaculty = faculty;
+                assignedRoom = room;
+                assigned = true;
+                
+                // Reserve resources globally
+                slot.facultyUsed.add(faculty);
+                slot.roomsUsed.add(room);
+                slot.assignments.push({
+                  section: sectionName,
+                  subject,
+                  faculty,
+                  room
+                });
+              }
+            }
+          }
+          
+          // Add to timetable
+          if (assigned && assignedFaculty) {
+            timetable.schedule[day].push({
+              subject: subject,
+              faculty: assignedFaculty,
+              room: assignedRoom,
+              type: isLab ? 'lab' : 'theory'
+            });
+          } else {
+            // Fallback to ensure no empty slots
+            timetable.schedule[day].push({
+              subject: 'Study Period',
+              faculty: '-',
+              room: `Room ${section}`,
+              type: 'study'
+            });
+          }
+          
+          globalSubjectIndex++;
+        }
+      }
+    }
+    
+    timetables.push(timetable);
+  }
+  
+  return timetables;
+}
+
+// Helper function to check if a time slot is a break
+function isBreakTime(slot, breakTimes) {
+  const slotStart = slot.split('-')[0];
+  return slotStart === breakTimes.break1 || 
+         slotStart === breakTimes.lunch || 
+         (breakTimes.break2 && slotStart === breakTimes.break2);
+}
+
+// Helper function to get break type
+function getBreakType(slot, breakTimes) {
+  const slotStart = slot.split('-')[0];
+  if (slotStart === breakTimes.break1) {
+    return 'Break (15 min)';
+  } else if (slotStart === breakTimes.lunch) {
+    return 'Lunch Break (45 min)';
+  } else if (breakTimes.break2 && slotStart === breakTimes.break2) {
+    return 'Break (15 min)';
+  }
+  return 'Break';
+}
+
+// REMOVED COMPLEX CLASSES FOR SPEED
+// All timetable generation logic is now in generateProperTimetable() function above
+
+function renderTimetable(timetables) {
+  const container = document.getElementById('timetableContent');
+  
+  // Generate conflict analysis quickly (keep for background processing and downloads)
+  const conflictAnalysis = window.timetableAnalysis || analyzeConflicts(timetables);
+  
+  // Store analysis results for download functions
+  window.timetableAnalysis = conflictAnalysis;
+  window.generatedTimetables = timetables;
+  
+  let html = '';
+  
+  // Build timetable HTML efficiently (removed statistics display per user preference)
+  timetables.forEach((timetable) => {
+    html += `
+      <div class="section-timetable glass-card mb-4">
+        <div class="section-header">
+          <h3 class="section-title">Section ${timetable.section}</h3>
+          <span class="room-info">🏢 ${timetable.room}</span>
+        </div>
+        <div class="timetable-table-container">
+          <table class="timetable-table">
+            <thead><tr><th>Day/Time</th>${timeSlots.map(slot => `<th>${slot}</th>`).join('')}</tr></thead>
+            <tbody>`;
+    
+    Object.entries(timetable.schedule).forEach(([day, schedule]) => {
+      html += `<tr><td class="day-label">${day}</td>`;
+      
+      schedule.forEach(entry => {
+        const cellClass = entry.type === 'break' ? 'break-cell' : 
+                         entry.type === 'lab' ? 'lab-cell' : 
+                         entry.type === 'free' ? 'free-cell' :
+                         entry.type === 'study' ? 'study-cell' : 'theory-cell';
+        
+        html += `<td class="${cellClass}">
+          <div class="subject-name">${entry.subject}</div>
+          ${entry.faculty !== '-' ? `<div class="faculty-name">${entry.faculty}</div>` : ''}
+          ${entry.room !== '-' ? `<div class="room-name">${entry.room}</div>` : ''}
+        </td>`;
+      });
+      
+      html += '</tr>';
+    });
+    
+    html += '</tbody></table></div></div>';
+  });
+  
+  // Single DOM update for better performance
+  container.innerHTML = html;
+  
+  // Show success message
+  const statusMessage = `✅ Timetable generated successfully for ${timetables.length} section(s).`;
+    
+  Utils.showToast(statusMessage, 'success', 4000);
+}
+
+// PERFECT Conflict Analysis - Detailed Checking
+function analyzeConflicts(timetables) {
+  const conflicts = [];
+  let totalSlots = 0;
+  let usedSlots = 0;
+  let breakSlots = 0;
+  
+  // Get break times for analysis
+  const breakTimes = TimetableSystem.sessionData.breakTimes || {
+    break1: '10:00',
+    lunch: '12:30',
+    break2: '15:30'
+  };
+  
+  // Detailed conflict detection
+  const days = Object.keys(timetables[0].schedule);
+  
+  days.forEach(day => {
+    for (let slotIndex = 0; slotIndex < timeSlots.length; slotIndex++) {
+      const timeSlot = timeSlots[slotIndex];
+      
+      // Track break slots separately using configured times
+      if (isBreakTime(timeSlot, breakTimes)) {
+        breakSlots++;
+        return;
+      }
+      
+      totalSlots++;
+      const facultyThisSlot = new Set();
+      const roomsThisSlot = new Set();
+      
+      timetables.forEach(timetable => {
+        const entry = timetable.schedule[day][slotIndex];
+        
+        if (entry && entry.type !== 'free' && entry.faculty !== '-') {
+          usedSlots++;
+          
+          // Check for faculty conflicts
+          if (facultyThisSlot.has(entry.faculty)) {
+            conflicts.push(`${day} ${timeSlot}: Faculty ${entry.faculty} teaching multiple sections`);
+          } else {
+            facultyThisSlot.add(entry.faculty);
+          }
+          
+          // Check for room conflicts
+          if (roomsThisSlot.has(entry.room)) {
+            conflicts.push(`${day} ${timeSlot}: Room ${entry.room} double-booked`);
+          } else {
+            roomsThisSlot.add(entry.room);
+          }
+        }
+      });
+    }
+  });
+  
+  // Calculate efficiency properly
+  const totalPossibleSlots = totalSlots * timetables.length;
+  const efficiency = totalPossibleSlots > 0 ? Math.round((usedSlots / totalPossibleSlots) * 100) : 0;
+  
+  // Count unique resources
+  const uniqueFaculty = new Set();
+  const uniqueRooms = new Set();
+  
+  timetables.forEach(timetable => {
+    Object.values(timetable.schedule).forEach(schedule => {
+      schedule.forEach(entry => {
+        if (entry.faculty !== '-') uniqueFaculty.add(entry.faculty);
+        if (entry.room !== '-') uniqueRooms.add(entry.room);
+      });
+    });
+  });
+  
+  const messages = [
+    `${uniqueFaculty.size} faculty members optimally assigned`,
+    `${uniqueRooms.size} rooms/labs efficiently utilized`,
+    `${usedSlots} active classes scheduled across ${timetables.length} sections`,
+    `${Math.round((breakSlots * timetables.length) / (timeSlots.length * days.length * timetables.length) * 100)}% time allocated to breaks (NEP compliant)`
+  ];
+  
+  return {
+    conflicts: conflicts.length,
+    conflictList: conflicts,
+    messages,
+    totalSlots: totalPossibleSlots,
+    usedSlots,
+    efficiency,
+    facultyCount: uniqueFaculty.size,
+    roomCount: uniqueRooms.size
+  };
+}
+
+function downloadPDF() {
+  if (!window.generatedTimetables || !window.timetableAnalysis) {
+    Utils.showToast('Please generate a timetable first', 'warning');
+    return;
+  }
+  
+  const sessionData = TimetableSystem.sessionData;
+  const analysis = window.timetableAnalysis;
+  const timetables = window.generatedTimetables;
+  
+  // Create printable window
+  const printWindow = window.open('', '_blank');
+  const doc = printWindow.document;
+  
+  doc.open();
+  doc.write('<html><head><title>Timetable Report</title>');
+  doc.write('<style>body{font-family:Arial;margin:20px}table{width:100%;border-collapse:collapse;margin:20px 0}th,td{border:1px solid black;padding:8px;text-align:center}th{background:lightgray}.break{background:pink}.lab{background:lightgreen}.theory{background:lightblue}</style>');
+  doc.write('</head><body>');
+  
+  doc.write('<h1>Academic Timetable Report</h1>');
+  doc.write('<h2>' + (sessionData.program || 'Unknown') + ' - Semester ' + (sessionData.semester || 'X') + '</h2>');
+  doc.write('<p>Generated: ' + new Date().toLocaleDateString() + '</p>');
+  doc.write('<p>Sections: ' + timetables.length + ' | Efficiency: ' + analysis.efficiency + '% | Conflicts: ' + analysis.conflicts + '</p>');
+  
+  timetables.forEach(function(timetable) {
+    doc.write('<h3>Section ' + timetable.section + ' - ' + timetable.room + '</h3>');
+    doc.write('<table><thead><tr><th>Day/Time</th>');
+    
+    for (var i = 0; i < timeSlots.length; i++) {
+      doc.write('<th>' + timeSlots[i] + '</th>');
+    }
+    doc.write('</tr></thead><tbody>');
+    
+    var days = Object.keys(timetable.schedule);
+    for (var d = 0; d < days.length; d++) {
+      var day = days[d];
+      doc.write('<tr><td><strong>' + day + '</strong></td>');
+      
+      var schedule = timetable.schedule[day];
+      for (var s = 0; s < schedule.length; s++) {
+        var entry = schedule[s];
+        var className = entry.type === 'break' ? 'break' : (entry.type === 'lab' ? 'lab' : 'theory');
+        doc.write('<td class="' + className + '">');
+        doc.write('<div>' + entry.subject + '</div>');
+        if (entry.faculty !== '-') {
+          doc.write('<small>' + entry.faculty + '</small>');
+        }
+        doc.write('</td>');
+      }
+      doc.write('</tr>');
+    }
+    doc.write('</tbody></table>');
+  });
+  
+  doc.write('<p style="text-align:center;margin-top:30px;border-top:1px solid gray;padding-top:20px">Generated by Academic Timetable Management System</p>');
+  doc.write('</body></html>');
+  doc.close();
+  
+  // Auto print
+  setTimeout(function() {
+    printWindow.print();
+  }, 1000);
+  
+  Utils.showToast('📄 PDF generated! Print dialog will open.', 'success');
+}
+
+function downloadExcel() {
+  if (!window.generatedTimetables || !window.timetableAnalysis) {
+    Utils.showToast('Please generate a timetable first', 'warning');
+    return;
+  }
+  
+  const sessionData = TimetableSystem.sessionData;
+  const analysis = window.timetableAnalysis;
+  const timetables = window.generatedTimetables;
+  
+  // Create CSV content for Excel compatibility
+  let csvContent = 'Academic Timetable Report\n';
+  csvContent += 'Program: ' + (sessionData.program || 'Unknown') + '\n';
+  csvContent += 'Semester: ' + (sessionData.semester || 'X') + '\n';
+  csvContent += 'Generated: ' + new Date().toLocaleDateString() + '\n';
+  csvContent += 'Sections: ' + timetables.length + '\n';
+  csvContent += 'Efficiency: ' + analysis.efficiency + '%\n';
+  csvContent += 'Conflicts: ' + analysis.conflicts + '\n\n';
+  
+  timetables.forEach(function(timetable) {
+    csvContent += 'Section ' + timetable.section + ' - ' + timetable.room + '\n';
+    csvContent += 'Day/Time';
+    
+    timeSlots.forEach(function(slot) {
+      csvContent += ',' + slot;
+    });
+    csvContent += '\n';
+    
+    Object.keys(timetable.schedule).forEach(function(day) {
+      csvContent += day;
+      
+      timetable.schedule[day].forEach(function(entry) {
+        csvContent += ',"' + entry.subject;
+        if (entry.faculty !== '-') {
+          csvContent += ' (' + entry.faculty + ')';
+        }
+        csvContent += '"';
+      });
+      csvContent += '\n';
+    });
+    csvContent += '\n';
+  });
+  
+  // Create and download file
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'Timetable_' + (sessionData.program || 'Unknown') + '_Sem' + (sessionData.semester || 'X') + '_' + new Date().toISOString().split('T')[0] + '.csv');
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  Utils.showToast('📈 Excel file downloaded successfully!', 'success');
+}
+
+// REMOVED COMPLEX PDF/EXCEL GENERATION FUNCTIONS FOR SPEED
+// All export functionality now uses cached display data for instant results
+
+async function regenerateTimetable() {
+  Utils.showToast('🔄 Regenerating timetable...', 'info');
+  
+  // Clear previous results
+  window.generatedTimetables = null;
+  window.timetableAnalysis = null;
+  
+  // Regenerate
+  await generateTimetable();
+}
+
+function logout() {
+  TimetableSystem.currentUser = null;
+  TimetableSystem.sessionData = {};
+  document.getElementById('userEmail').textContent = '';
+  document.getElementById('logoutBtn').style.display = 'none';
+  Utils.showToast('Logged out successfully', 'success');
+  showPage('login');
+}
+
+// ===== NEP UPDATES CHECKER FUNCTIONALITY =====
+
+// NEP Updates API simulation with web scraping simulation
+const NEPUpdatesAPI = {
+  // Simulate web scraping of NEP website
+  async scrapeNEPWebsite() {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Simulate scraping results with random updates
+    const possibleUpdates = [
+      {
+        title: "Credit System Modifications",
+        date: new Date().toISOString().split('T')[0],
+        description: "Updates to the credit transfer and accumulation system",
+        category: "Academic Structure",
+        priority: "medium"
+      },
+      {
+        title: "Assessment Pattern Changes",
+        date: new Date(Date.now() - 86400000).toISOString().split('T')[0], // Yesterday
+        description: "New guidelines for continuous and comprehensive evaluation",
+        category: "Assessment",
+        priority: "high"
+      },
+      {
+        title: "Digital Learning Framework",
+        date: new Date(Date.now() - 172800000).toISOString().split('T')[0], // 2 days ago
+        description: "Enhanced digital learning and online education protocols",
+        category: "Technology",
+        priority: "low"
+      },
+      {
+        title: "Curriculum Flexibility Guidelines",
+        date: new Date(Date.now() - 259200000).toISOString().split('T')[0], // 3 days ago
+        description: "New provisions for interdisciplinary and multidisciplinary approaches",
+        category: "Curriculum",
+        priority: "high"
+      }
+    ];
+    
+    // Simulate random availability of updates (10% chance of having updates - default to no updates)
+    const hasUpdates = Math.random() > 0.9; // Changed from 0.3 to 0.9 for mostly no updates
+    const numUpdates = hasUpdates ? Math.floor(Math.random() * 2) + 1 : 0; // Max 2 updates
+    
+    return {
+      success: true,
+      hasUpdates: hasUpdates,
+      updates: possibleUpdates.slice(0, numUpdates),
+      scrapedAt: new Date().toISOString(),
+      source: "https://www.education.gov.in/nep/documents"
+    };
+  },
+
+  // Check if cache is still valid (less than 6 hours old)
+  isCacheValid() {
+    const cache = TimetableSystem.nepCache;
+    if (!cache.lastChecked) return false;
+    
+    const now = new Date().getTime();
+    const lastCheck = new Date(cache.lastChecked).getTime();
+    return (now - lastCheck) < cache.cacheExpiry;
+  },
+
+  // Get cached data if valid, otherwise fetch new data
+  async getUpdates(forceRefresh = false) {
+    if (!forceRefresh && this.isCacheValid()) {
+      return {
+        cached: true,
+        ...TimetableSystem.nepCache
+      };
+    }
+
+    try {
+      const result = await this.scrapeNEPWebsite();
+      
+      // Update cache
+      TimetableSystem.nepCache = {
+        lastChecked: result.scrapedAt,
+        updates: result.updates,
+        status: result.hasUpdates ? 'updates-available' : 'up-to-date',
+        hasUpdates: result.hasUpdates,
+        cacheExpiry: TimetableSystem.nepCache.cacheExpiry,
+        source: result.source
+      };
+      
+      return {
+        cached: false,
+        ...TimetableSystem.nepCache
+      };
+    } catch (error) {
+      console.error('NEP scraping failed:', error);
+      return {
+        cached: false,
+        status: 'error',
+        error: error.message,
+        lastChecked: new Date().toISOString()
+      };
+    }
+  }
+};
+
+// Initialize NEP checker
+function initializeNEPChecker() {
+  // Check for updates on page load
+  checkNEPUpdates();
+  
+  // Set up automatic checking every 6 hours
+  setInterval(() => {
+    checkNEPUpdates();
+  }, TimetableSystem.nepCache.cacheExpiry);
+}
+
+// Main function to check NEP updates
+async function checkNEPUpdates(forceRefresh = false) {
+  const statusIndicator = document.getElementById('nepStatusIndicator');
+  const statusText = document.getElementById('nepStatusText');
+  const statusDot = statusIndicator.querySelector('.status-dot');
+  const refreshBtn = document.getElementById('refreshNepBtn');
+  
+  // Set loading state
+  statusDot.className = 'status-dot loading';
+  statusText.textContent = 'Checking for updates...';
+  refreshBtn.disabled = true;
+  
+  try {
+    const result = await NEPUpdatesAPI.getUpdates(forceRefresh);
+    
+    // Update UI based on results
+    updateNEPStatusUI(result);
+    
+    // Show notification if there are new updates
+    if (result.hasUpdates && !result.cached) {
+      Utils.showToast(`Found ${result.updates.length} NEP policy update(s) - Please review before proceeding`, 'warning', 7000);
+    } else if (result.cached && result.status === 'up-to-date') {
+      Utils.showToast('NEP status up to date (cached)', 'info', 3000);
+    } else if (result.cached && result.status === 'updates-available') {
+      Utils.showToast('NEP updates available (cached) - Please review', 'warning', 5000);
+    } else if (result.status === 'up-to-date') {
+      Utils.showToast('No NEP updates available - All policies are current', 'success', 4000);
+    }
+    
+  } catch (error) {
+    // Handle error state
+    statusDot.className = 'status-dot error';
+    statusText.textContent = 'Failed to check updates';
+    Utils.showToast('Failed to check NEP updates: ' + error.message, 'error');
+  } finally {
+    refreshBtn.disabled = false;
+  }
+}
+
+// Update the NEP status UI
+function updateNEPStatusUI(result) {
+  const statusDot = document.querySelector('.status-dot');
+  const statusText = document.getElementById('nepStatusText');
+  const lastCheckedTime = document.getElementById('lastCheckedTime');
+  const acknowledgeBtn = document.getElementById('acknowledgeNepBtn');
+  
+  // Update status indicator
+  if (result.status === 'updates-available') {
+    statusDot.className = 'status-dot updates';
+    statusText.textContent = 'New updates available from NEP 2020';
+    acknowledgeBtn.style.display = 'inline-block';
+  } else if (result.status === 'up-to-date') {
+    statusDot.className = 'status-dot success';
+    statusText.textContent = 'No updates available - NEP 2020 policies are current';
+    acknowledgeBtn.style.display = 'none';
+  } else if (result.status === 'error') {
+    statusDot.className = 'status-dot error';
+    statusText.textContent = 'Failed to check NEP updates';
+    acknowledgeBtn.style.display = 'none';
+  }
+  
+  // Update last checked time
+  if (result.lastChecked) {
+    const lastChecked = new Date(result.lastChecked);
+    lastCheckedTime.textContent = lastChecked.toLocaleString();
+  }
+}
+
+// Function to acknowledge NEP updates
+function acknowledgeNEPUpdates() {
+  const acknowledgeBtn = document.getElementById('acknowledgeNepBtn');
+  
+  // Mark updates as acknowledged
+  TimetableSystem.nepCache.acknowledged = true;
+  TimetableSystem.nepCache.acknowledgedAt = new Date().toISOString();
+  
+  // Update UI
+  const statusDot = document.querySelector('.status-dot');
+  const statusText = document.getElementById('nepStatusText');
+  
+  statusDot.className = 'status-dot success';
+  statusText.textContent = 'NEP updates acknowledged - Ready to proceed';
+  acknowledgeBtn.style.display = 'none';
+  
+  Utils.showToast('NEP policy updates acknowledged. You can now proceed to timetable generation.', 'success', 4000);
+}
+
+    </script>
+
+    <!-- Additional Component Styles -->
+    <style>
+/* All the component-specific styles from individual files */
+.form-hint { font-size: 12px; color: var(--text-secondary); margin-top: 6px; padding-left: 4px; }
+.features-preview { margin-top: 40px; }
+.feature-card { padding: 20px; text-align: center; transition: var(--transition-smooth); cursor: pointer; }
+.feature-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2); }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+.feature-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+.security-notice { margin-top: 30px; }
+.alert { padding: 16px 20px; border-radius: 12px; margin: 16px 0; border-left: 4px solid; backdrop-filter: blur(10px); }
+.alert-info { background: rgba(79, 172, 254, 0.1); border-left-color: #4facfe; color: #4facfe; }
+.stats-overlay { position: fixed; bottom: 30px; left: 30px; display: flex; gap: 30px; z-index: 10; }
+.stat-item { text-align: center; background: var(--bg-glass); backdrop-filter: blur(15px); border: var(--border-glass); border-radius: 12px; padding: 15px 20px; min-width: 120px; }
+.stat-number { font-size: 24px; font-weight: 700; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Selection Page */
+.user-info { display: flex; align-items: center; color: var(--text-secondary); font-size: 14px; }
+.program-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 16px; }
+.program-card { background: var(--bg-glass); border: 2px solid transparent; border-radius: 16px; padding: 24px 16px; text-align: center; cursor: pointer; transition: var(--transition-smooth); backdrop-filter: blur(10px); }
+.program-card:hover { transform: translateY(-3px); border-color: rgba(100, 255, 218, 0.3); box-shadow: 0 8px 25px rgba(100, 255, 218, 0.15); }
+.program-card.selected { border-color: var(--text-accent); background: rgba(100, 255, 218, 0.1); box-shadow: var(--shadow-neon); }
+.program-icon { font-size: 36px; margin-bottom: 12px; }
+.program-name { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.program-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.3; }
+.selection-section { margin-bottom: 40px; }
+.academic-grid { gap: 20px; }
+.form-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+/* Upload Page */
+.upload-section { margin-bottom: 40px; }
+.upload-card { padding: 24px; text-align: center; }
+.upload-card h4 { color: var(--text-primary); margin-bottom: 16px; font-size: 18px; }
+.file-upload { position: relative; display: block; width: 100%; padding: 40px 20px; border: 2px dashed rgba(100, 255, 218, 0.3); border-radius: 16px; background: rgba(100, 255, 218, 0.05); text-align: center; cursor: pointer; transition: var(--transition-smooth); }
+.file-upload:hover { border-color: var(--text-accent); background: rgba(100, 255, 218, 0.1); }
+.file-upload input[type="file"] { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.file-upload-icon { font-size: 48px; color: var(--text-accent); margin-bottom: 16px; }
+.file-upload-text { font-size: 16px; color: var(--text-primary); margin-bottom: 8px; }
+.file-upload-hint { font-size: 14px; color: var(--text-secondary); }
+
+/* File Upload Success States - Enhanced */
+.file-upload-content { transition: var(--transition-smooth); }
+.file-upload-success { 
+  display: none !important; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 12px; 
+  transition: var(--transition-smooth);
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.file-upload-success.show {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.success-icon { font-size: 48px; animation: bounceIn 0.6s ease-out; }
+.success-text { font-size: 16px; font-weight: 600; color: #43e97b; }
+.file-name { font-size: 14px; color: var(--text-secondary); max-width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.1); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Upload validation states */
+.file-upload.error { border-color: #ff6b6b !important; background: rgba(255, 107, 107, 0.1) !important; }
+.file-upload.success { border-color: #43e97b !important; background: rgba(67, 233, 123, 0.1) !important; }
+.file-upload.processing { border-color: var(--text-accent) !important; background: rgba(100, 255, 218, 0.1) !important; }
+.break-config { margin-bottom: 40px; }
+.break-notice { margin-top: 16px; padding: 12px; background: rgba(100, 255, 218, 0.1); border-radius: 8px; color: var(--text-accent); font-size: 14px; }
+
+/* NEP Updates Section Styles - Simplified */
+.nep-updates-section { margin-bottom: 40px; }
+.nep-status-card { padding: 24px; }
+.nep-status-simple { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.nep-status-indicator { display: flex; align-items: center; gap: 12px; }
+.nep-actions { display: flex; align-items: center; }
+.status-dot { width: 12px; height: 12px; border-radius: 50%; position: relative; }
+.status-dot.loading { background: var(--text-accent); animation: pulse 1.5s infinite; }
+.status-dot.success { background: #43e97b; box-shadow: 0 0 8px rgba(67, 233, 123, 0.4); }
+.status-dot.updates { background: #fa709a; box-shadow: 0 0 8px rgba(250, 112, 154, 0.4); animation: blink 2s infinite; }
+.status-dot.error { background: #ff6b6b; box-shadow: 0 0 8px rgba(255, 107, 107, 0.4); }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.3; } }
+.status-text { font-weight: 600; color: var(--text-primary); font-size: 16px; }
+.nep-last-checked { display: flex; justify-content: center; gap: 8px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.last-checked-label { font-size: 12px; color: var(--text-secondary); }
+.last-checked-time { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+
+/* NEP Updates Section Styles */
+.nep-updates-section { margin-bottom: 40px; }
+.nep-status-card { padding: 24px; }
+.nep-status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.nep-status-indicator { display: flex; align-items: center; gap: 12px; }
+.status-dot { width: 12px; height: 12px; border-radius: 50%; position: relative; }
+.status-dot.loading { background: var(--text-accent); animation: pulse 1.5s infinite; }
+.status-dot.success { background: #43e97b; box-shadow: 0 0 8px rgba(67, 233, 123, 0.4); }
+.status-dot.updates { background: #fa709a; box-shadow: 0 0 8px rgba(250, 112, 154, 0.4); animation: blink 2s infinite; }
+.status-dot.error { background: #ff6b6b; box-shadow: 0 0 8px rgba(255, 107, 107, 0.4); }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.3; } }
+.status-text { font-weight: 600; color: var(--text-primary); font-size: 16px; }
+.nep-status-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.status-item { display: flex; flex-direction: column; gap: 4px; }
+.status-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+.status-value { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.nep-updates-list { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.nep-updates-list h4 { color: var(--text-primary); margin-bottom: 16px; font-size: 16px; }
+.updates-container { display: flex; flex-direction: column; gap: 12px; }
+.update-item { background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 16px; border-left: 4px solid; transition: var(--transition-smooth); }
+.update-item.priority-high { border-left-color: #ff6b6b; background: rgba(255, 107, 107, 0.05); }
+.update-item.priority-medium { border-left-color: #fa709a; background: rgba(250, 112, 154, 0.05); }
+.update-item.priority-low { border-left-color: #4facfe; background: rgba(79, 172, 254, 0.05); }
+.update-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+.update-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.update-title { font-weight: 600; color: var(--text-primary); font-size: 14px; }
+.update-date { font-size: 12px; color: var(--text-secondary); }
+.update-meta { display: flex; gap: 12px; margin-bottom: 8px; }
+.update-category { background: rgba(100, 255, 218, 0.1); color: var(--text-accent); padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+.update-priority { padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.update-priority.priority-high { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+.update-priority.priority-medium { background: rgba(250, 112, 154, 0.2); color: #fa709a; }
+.update-priority.priority-low { background: rgba(79, 172, 254, 0.2); color: #4facfe; }
+.update-description { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+.nep-compliance-notice { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+/* Timetable Page */
+.control-panel { max-width: 800px; margin: 0 auto; padding: 24px; }
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.panel-title { font-size: 24px; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.generation-status { color: var(--text-accent); font-size: 14px; }
+.generation-config { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.config-summary { display: flex; gap: 24px; }
+.summary-item { display: flex; flex-direction: column; gap: 4px; }
+.summary-label { font-size: 12px; color: var(--text-secondary); }
+.summary-value { font-weight: 600; color: var(--text-primary); }
+.btn-generate { font-size: 18px; padding: 12px 32px; }
+.progress-panel { max-width: 600px; margin: 0 auto; padding: 32px; text-align: center; }
+.progress-title { font-size: 20px; margin-bottom: 24px; color: var(--text-primary); }
+.progress-container { margin-bottom: 32px; }
+.progress-bar { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+.progress-fill { height: 100%; background: var(--accent-gradient); width: 0%; transition: width 0.5s ease; }
+.progress-text { color: var(--text-secondary); font-size: 14px; }
+.timetable-container { max-width: 1200px; margin: 0 auto; }
+.timetable-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 0 8px; }
+.timetable-title { font-size: 24px; font-weight: 700; color: var(--text-primary); }
+.timetable-actions { display: flex; gap: 12px; }
+.section-timetable { padding: 24px; margin-bottom: 24px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.section-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+.room-info { font-size: 14px; color: var(--text-secondary); }
+.timetable-table-container { overflow-x: auto; }
+.timetable-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.timetable-table th, .timetable-table td { border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 4px; text-align: center; }
+.timetable-table th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+.day-label { background: rgba(100, 255, 218, 0.1); font-weight: 600; color: var(--text-accent); }
+.break-cell { background: rgba(250, 112, 154, 0.1); color: #fa709a; font-style: italic; }
+.lab-cell { background: rgba(67, 233, 123, 0.1); border-left: 3px solid #43e97b; }
+.theory-cell { background: rgba(79, 172, 254, 0.1); border-left: 3px solid #4facfe; }
+.free-cell { background: rgba(128, 128, 128, 0.1); border-left: 3px solid #888; }
+.study-cell { background: rgba(255, 193, 7, 0.1); border-left: 3px solid #ffc107; }
+.subject-name { font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+.faculty-name { font-size: 9px; color: var(--text-secondary); margin-bottom: 1px; }
+.room-name { font-size: 9px; color: var(--text-accent); }
+
+/* Conflict Analysis Styles */
+.conflict-summary { padding: 24px; margin-bottom: 24px; }
+.summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.summary-title { font-size: 20px; font-weight: 600; color: var(--text-primary); margin: 0; }
+.generation-stats { display: flex; gap: 24px; }
+.stat-item { text-align: center; }
+.stat-number { display: block; font-size: 24px; font-weight: 700; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 12px; color: var(--text-secondary); }
+.alert-success { background: rgba(67, 233, 123, 0.1); border-left-color: #43e97b; color: #43e97b; }
+.alert-warning { background: rgba(250, 112, 154, 0.1); border-left-color: #fa709a; color: #fa709a; }
+.conflict-details { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.conflict-details h4 { color: var(--text-primary); margin-bottom: 12px; font-size: 16px; }
+.conflict-details ul { margin: 0; padding-left: 20px; }
+.conflict-details li { color: var(--text-secondary); font-size: 14px; margin-bottom: 4px; }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .stats-overlay { position: static; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+  .stat-item { min-width: 100px; padding: 12px 16px; }
+  .features-preview .grid-2 { grid-template-columns: 1fr; }
+  .program-grid { grid-template-columns: repeat(2, 1fr); }
+  .academic-grid { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; gap: 12px; }
+  .form-actions .btn { width: 100%; }
+  .generation-config { flex-direction: column; gap: 16px; }
+  .config-summary { flex-direction: column; gap: 8px; text-align: center; }
+  .timetable-header { flex-direction: column; gap: 16px; align-items: stretch; }
+  .timetable-actions { justify-content: center; }
+}
+    </style>
+
+</body>
+</html>

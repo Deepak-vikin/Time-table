@@ -1,0 +1,23 @@
+PROJECT ABSTRACT
+
+AI-Based Timetable Generator for NEP 2020 Compliant Academic Scheduling
+
+-----------------------------------------------
+
+This project presents an innovative AI-powered solution for generating academic timetables that adhere to the National Education Policy (NEP) 2020 guidelines. The system leverages advanced machine learning algorithms and OpenAI's GPT models to create optimized, conflict-free schedules for college classes.
+
+The timetable generator addresses the complex challenge of academic scheduling by combining constraint satisfaction algorithms with intelligent AI decision-making. It takes into account multiple variables including subject categories, teacher availability, classroom capacity, student enrollment, and institutional preferences while ensuring compliance with NEP 2020 requirements.
+
+Key features of the system include:
+- Multidisciplinary subject integration
+- Holistic development focus with balanced academic and extracurricular activities
+- Flexible curriculum support for diverse educational needs
+- Priority scheduling for art and value education subjects
+- Conflict avoidance for teachers, classes, and rooms
+- Resource optimization for efficient utilization of facilities
+
+The system employs a hybrid approach that integrates rule-based logic with AI-powered optimization. It uses prompt-engineered interactions with OpenAI's GPT models to generate intelligent scheduling decisions based on comprehensive institutional data and NEP 2020 compliance parameters.
+
+The user-friendly interface allows educational institutions to input their specific requirements, generate optimized timetables, and export them in various formats. The solution significantly reduces the manual effort traditionally required for timetable creation while ensuring higher quality and compliance with modern educational policies.
+
+This AI-driven approach represents a significant advancement in educational administration, providing institutions with a powerful tool to enhance academic scheduling efficiency and effectiveness.
